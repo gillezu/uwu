@@ -75,6 +75,7 @@ class Grid:
         for row in self.cells:
             for cell in row:
                 cell.state = CellState.ALIVE if random.random() > 0.7 else CellState.DEAD
+                cell.time_not_changed = 0
     
     def initialize_manually(self):
         for row in self.cells:
