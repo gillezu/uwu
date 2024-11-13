@@ -195,12 +195,14 @@ stat_surface.fill((100, 100, 100))
 
 # Pygame setup and main loop
 def main():
+    FPS = 60
     cell_size = 12
     grid_width, grid_height = 100, 100  # Defines the grid size in terms of cells
     red_button_offset = (grid_width * cell_size/2-50, grid_height * cell_size+10)
     blue_button_offset = (grid_width * cell_size/2, grid_height * cell_size+10)
     green_button_offset = (grid_width * cell_size/2+50, grid_height * cell_size+10)
-    label_offset = (grid_width * cell_size-200, grid_height * cell_size+10)
+    label_count_offset = (grid_width * cell_size-200, grid_height * cell_size+10)
+    label_fps_offset = (grid_width * cell_size-200, grid_height * cell_size+30)
     stat_label_1_offset = (70, 50)
     stat_label_2_offset = (70, 80)
     #stat_label_3_offset = (70, 110)
@@ -246,12 +248,16 @@ def main():
                 if event.key == pygame.K_l:
                     if 0<=pos[0]<=(grid_width * cell_size) and 0<=pos[1]<=(grid_height * cell_size):
                         game.apply_spell(0, pos[0]/cell_size, pos[1]/cell_size)
-                if event.key == pygame.K_e:
+                elif event.key == pygame.K_e:
                     game.apply_spell(1)
-                if event.key == pygame.K_c:
+                elif event.key == pygame.K_c:
                     game.grid.reset_field()
                     count = 0
                     started = False
+                elif event.key == pygame.K_UP:
+                    FPS += 5
+                elif event.key == pygame.K_DOWN:
+                    FPS -= 5
 
         # Update and draw
         if started:
@@ -278,11 +284,13 @@ def main():
         screen.blit(blue_button, blue_button_offset) 
         screen.blit(green_button, green_button_offset)
         screen.blit(stat_button, (0, 0))
-        label = myfont.render(f'Count: {count}', 1, (255,255,0))
-        screen.blit(label, label_offset)
+        label_count = myfont.render(f'Count: {count}', 1, (255,255,0))
+        screen.blit(label_count, label_count_offset)
+        label_fps = myfont.render(f'FPS: {FPS}', 1, (255,255,0))
+        screen.blit(label_fps, label_fps_offset)
         pygame.display.update()
         #pygame.display.flip()
-        clock.tick(60)  # Control the speed of generations (10 frames per second)
+        clock.tick(FPS)  # Control the speed of generations (10 frames per second)
 
     pygame.quit()
 
