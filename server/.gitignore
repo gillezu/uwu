@@ -1,0 +1,46 @@
+# Python
+*.pyc
+*.pyo
+__pycache__/
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual environments
+venv/
+.env/
+env/
+.venv/
+ENV/
+
+# IDEs and text editors
+.idea/
+.vscode/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# Build and distribution files
+build/
+dist/
+*.egg-info/
+
+# pytest and other test tools
+.cache/
+*.cover
+nosetests.xml
+coverage.xml
+
+# MySQL or other database configs
+*.sql
+*.sqlite3
+
+# OS generated files
+.DS_Store
+Thumbs.db
+

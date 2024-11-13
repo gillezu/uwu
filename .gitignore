@@ -1,1 +1,21 @@
-/venv
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# System files
+Desktop.ini
+
+# Node.js
+node_modules/
+
+# Python virtualenv
+.venv/
+env/
+ENV/
+
