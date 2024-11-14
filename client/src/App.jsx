@@ -4,7 +4,6 @@ import axios from "axios";
 import Grid from "./components/Grid";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [data, setData] = useState("");
 
   const fetchRouteApi = async () => {
