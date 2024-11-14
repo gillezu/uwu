@@ -11,7 +11,7 @@ function App() {
   const fetchRouteApi = async () => {
     try {
       const response = await axios.get("/");
-      setData(response.data.message);
+      setData(response.data);
     } catch (error) {
       console.error("Error fetching data: ", error);
       setResponse("Error fetching data");
