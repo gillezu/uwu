@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import axios from "axios";
 import Grid from "./components/Grid";
+import Cell from "./components/Cell";
 
 function App() {
   const [data, setData] = useState("");
@@ -17,10 +18,18 @@ function App() {
     console.log(data);
   };
 
-  return <>
-        <Grid grid={data["cells"]} height={data["height"]} width={data["width"]} stats={data["stats"]} />
-        <button onClick={fetchRouteApi}>click Me</button>
+  return (
+    <>
+      <Grid
+        grid={data["cells"]}
+        height={data["height"]}
+        width={data["width"]}
+        stats={data["stats"]}
+        cellSize={data["cell_size"]}
+      />
+      <button onClick={fetchRouteApi}>click Me</button>
     </>
+  );
 }
 
 export default App;

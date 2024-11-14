@@ -30,6 +30,7 @@ class Grid:
             "height": self.height,
             "cells": [[cell.state.value for cell in row] for row in self.cells],
             "stats": self.stats,
+            "cell_size": self.cell_size,
         }
 
     def initialize_random(self):
