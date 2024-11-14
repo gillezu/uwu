@@ -1,3 +1,5 @@
+from test import *
+
 from flask import Flask
 from flask_cors import CORS
 
@@ -6,6 +8,9 @@ app = Flask(__name__)
 
 # Enable CORS for entire app
 CORS(app)
+
+grid = Grid(100, 100, 12)
+grid.initialize_random()
 
 
 @app.route("/")
