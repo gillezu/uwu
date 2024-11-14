@@ -22,3 +22,5 @@ def hello_world():
 if __name__ == "__main__":
     # Run the Flask app, which starts the server
     app.run(host="0.0.0.0", port=5000, debug=True)
+
+print("hello")
