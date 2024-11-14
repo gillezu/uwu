@@ -1,21 +1,22 @@
 from test import *
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 
 # Initialize app
 app = Flask(__name__)
 
 # Enable CORS for entire app
-CORS(app)
+CORS(app, origins="http://localhost:5173")
+
 
 grid = Grid(100, 100, 12)
 grid.initialize_random()
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def hello_world():
-    return {"message": "Hello from backend"}, 200
+    return jsonify(grid.to_dict()), 200
 
 
 if __name__ == "__main__":

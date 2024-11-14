@@ -28,7 +28,7 @@ class Grid:
         return {
             "width": self.width,
             "height": self.height,
-            "cells": [[cell.state for cell in row] for row in self.cells],
+            "cells": [[cell.state.value for cell in row] for row in self.cells],
             "stats": self.stats,
         }
 
