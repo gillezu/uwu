@@ -1,5 +1,5 @@
-from test import *
-
+from app.grid import grid
+from app.routes.initializeRandom import initialize_random_bp
 from flask import Flask, jsonify
 from flask_cors import CORS
 
@@ -10,15 +10,15 @@ app = Flask(__name__)
 CORS(app, origins="http://localhost:5173")
 
 
-grid = Grid(100, 100, 12)
-grid.initialize_random()
-
-
 @app.route("/", methods=["GET"])
 def hello_world():
     return jsonify(grid.to_dict()), 200
 
 
+app.register_blueprint(initialize_random_bp)
+
+
 if __name__ == "__main__":
     # Run the Flask app, which starts the server
     app.run(host="0.0.0.0", port=5000, debug=True)
+
