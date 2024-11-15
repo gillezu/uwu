@@ -1,4 +1,4 @@
-from app.grid import grid
+from grid import grid
 from flask import Blueprint, jsonify
 
 # Create a blueprint for the route

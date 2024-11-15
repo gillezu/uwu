@@ -1,3 +1,3 @@
-from app.test import *
+from test import *
 
 grid = Grid(100, 100, 12)

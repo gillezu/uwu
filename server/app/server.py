@@ -1,5 +1,5 @@
-from app.grid import grid
-from app.routes.initializeRandom import initialize_random_bp
+from grid import grid
+from routes.initializeRandom import initialize_random_bp
 from flask import Flask, jsonify
 from flask_cors import CORS
 
