@@ -1,6 +1,6 @@
 from grid import grid
 from routes.initializeRandom import initialize_random_bp
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 # Initialize app
@@ -17,6 +17,15 @@ def hello_world():
 
 app.register_blueprint(initialize_random_bp)
 
+@app.route('/mouse-coords', methods=['POST'])
+def receive_mouse_coords():
+    data = request.json  # Empfange die Mauskoordinaten
+    i, j, x, y = data.get('i'), data.get('j'), data.get('x'), data.get('y')
+    print(f"grid={grid.cells[i][j].state}")
+    grid.change_cell_state(i, j)
+    print(f"Empfangene Koordinaten: i={i}, j={j}, x={x}, y={y}, grid={grid.cells[i][j].state}")
+    # Verarbeite die Koordinaten
+    return hello_world()
 
 if __name__ == "__main__":
     # Run the Flask app, which starts the server

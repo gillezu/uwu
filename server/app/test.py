@@ -41,3 +41,8 @@ class Grid:
                     CellState.ALIVE if random.random() > 0.7 else CellState.DEAD
                 )
                 cell.time_not_changed = 0
+
+    def change_cell_state(self, x, y):
+        cell = self.cells[x][y]
+        if cell.state == CellState.ALIVE: cell.state = CellState.DEAD 
+        else: cell.state = CellState.ALIVE
