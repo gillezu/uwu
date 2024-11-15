@@ -27,7 +27,7 @@ function App() {
         stats={data["stats"]}
         cellSize={data["cell_size"]}
       />
-      <button onClick={fetchRouteApi}>click Me</button>
+      <button onClick={fetchRouteApi}>Initialize Random</button>
     </>
   );
 }
