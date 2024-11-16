@@ -2,12 +2,12 @@ import React from "react";
 import Cell from "./Cell";
 import axios from "axios";
 
-const Grid = ({ grid, height, width, stats, cellSize, onUpdateGrid }) => {
+const Grid = ({ grid, height, width, stats, cellSize, cellAge, onUpdateGrid }) => {
   const handleMouseDown = async (i, j, event) => {
     const coords = { i, j, x: event.clientX, y: event.clientY };
     try {
       const response = await axios.post("/mouse-coords", coords);
-      console.log("Antwort vom Server:", response.data);
+      console.log("Server response:", response.data);
 
       // Aktualisiere das Gitter im Parent-Component (App)
       onUpdateGrid(response.data); // Übergibt den neuen Gitterzustand an die App-Komponente
@@ -29,7 +29,7 @@ const Grid = ({ grid, height, width, stats, cellSize, onUpdateGrid }) => {
                     width={cellSize}
                     height={cellSize}
                     isAlive={cell}
-                    age={cell * 255}
+                    age={cellAge[i][j]}
                   />
                 }
               </td>

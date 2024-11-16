@@ -3,6 +3,7 @@ import "./App.css";
 import axios from "axios";
 import Grid from "./components/Grid";
 import ResetButton from "./components/controllers/ResetButton";
+import StartPauseButton from "./components/controllers/StartPauseButton";
 
 function App() {
   const [data, setData] = useState("");
@@ -39,7 +40,8 @@ function App() {
   return (
     <>
       <button onClick={fetchRouteApi}>Initialize Random</button>
-      <ResetButton grid={data["cells"]} />
+      <ResetButton onUpdateGrid={updateGrid} />
+      <StartPauseButton onUpdateGrid={updateGrid} />
       <div>
         <Grid
           grid={data["cells"]}
@@ -47,6 +49,7 @@ function App() {
           width={data["width"]}
           stats={data["stats"]}
           cellSize={data["cell_size"]}
+          cellAge={data["cell_age"]}
           onUpdateGrid={updateGrid}
         />
       </div>

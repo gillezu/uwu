@@ -6,7 +6,7 @@ reset_grid_bp = Blueprint("reset_grid", __name__)
 
 
 @reset_grid_bp.route("/resetGrid", methods=["POST"])
-def initialize_random():
+def reset_grid():
     data = request.json
     data.reset_field()
     return jsonify(grid.to_dict()), 200

@@ -2,9 +2,16 @@ import React, { useState, useEffect } from "react";
 
 const Cell = ({ width, height, age, isAlive }) => {
   const getColor = (age) => {
-    if (!isAlive) return "#fff";
-    const greenIntensity = Math.min(255, age * 15);
-    return `rgb(0, ${greenIntensity}, 0)`;
+    if (!isAlive) {
+      const grayValue = Math.max(255 - age, 0);
+      return `rgb(${grayValue}, ${grayValue}, ${grayValue})`;
+    }
+    
+    const red = Math.max(255 - 2 * age, 0);
+    const green = Math.min(age, 255);
+    const blue = Math.max(255 - 0.5 * age, 0);
+    
+    return `rgb(${red}, ${green}, ${blue})`;
   };
 
   return (
