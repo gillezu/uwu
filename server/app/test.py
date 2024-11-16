@@ -44,5 +44,15 @@ class Grid:
 
     def change_cell_state(self, x, y):
         cell = self.cells[x][y]
-        if cell.state == CellState.ALIVE: cell.state = CellState.DEAD 
-        else: cell.state = CellState.ALIVE
+        if cell.state == CellState.ALIVE:
+            cell.state = CellState.DEAD
+        else:
+            cell.state = CellState.ALIVE
+
+    def reset_field(self):
+        for row in self.cells:
+            for cell in row:
+                cell.next_state = CellState.DEAD
+                cell.time_not_changed = 0
+                cell.update_state()
+

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 import Grid from "./components/Grid";
+import ResetButton from "./components/controllers/ResetButton";
 
 function App() {
   const [data, setData] = useState("");
@@ -10,8 +11,7 @@ function App() {
     try {
       const response = await axios.get("/initializeRandom");
       setData(response.data);
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("Error fetching data: ", error);
       setResponse("Error fetching data");
     }
@@ -19,7 +19,7 @@ function App() {
   };
 
   const updateGrid = (newGridData) => {
-    setData(newGridData);  // Aktualisiert den Gitterzustand
+    setData(newGridData); // Aktualisiert den Gitterzustand
   };
 
   useEffect(() => {
@@ -27,8 +27,7 @@ function App() {
       try {
         const response = await axios.get("/");
         setData(response.data);
-      } 
-      catch (error) {
+      } catch (error) {
         console.error("Error fetching data: ", error);
         setResponse("Error fetching data");
       }
@@ -37,12 +36,10 @@ function App() {
     fetchInitialGrid();
   }, []);
 
-
-
-
   return (
     <>
       <button onClick={fetchRouteApi}>Initialize Random</button>
+      <ResetButton grid={data["cells"]} />
       <div>
         <Grid
           grid={data["cells"]}
