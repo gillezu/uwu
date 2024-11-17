@@ -11,7 +11,11 @@ function InitializeRandomButton({ onUpdateGrid }) {
       console.error("Error fetching data: ", error);
     }
   };
-  return <button onClick={initializeRandom}>Initialize Random</button>;
+  return (
+    <button onClick={initializeRandom} className="w-[30%]">
+      Initialize Random
+    </button>
+  );
 }
 
 export default InitializeRandomButton;

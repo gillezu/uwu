@@ -16,7 +16,7 @@ const StartPauseButton = ({ onUpdateGrid }) => {
       } catch (error) {
         console.error("Error fetching next generation:", error);
       }
-    }, 1000/FPS); // Führt die Funktion alle 500ms aus
+    }, 1000 / FPS); // Führt die Funktion alle 500ms aus
     setIntervalId(id);
   };
 
@@ -41,7 +41,12 @@ const StartPauseButton = ({ onUpdateGrid }) => {
     };
   }, [intervalId]);
 
-  return <button onClick={toggleProcess}>{isRunning ? "Stop" : "Start"}</button>;
+  return (
+    <button onClick={toggleProcess} className="w-[30%]">
+      {isRunning ? "Stop" : "Start"}
+    </button>
+  );
 };
 
 export default StartPauseButton;
+

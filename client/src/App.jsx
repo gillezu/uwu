@@ -39,34 +39,40 @@ function App() {
 
   return (
     <>
-      <div
-        className="flex justify-between"
-        style={{ width: `${data.width * data.cell_size}px` }}
-      >
-        <InitializeRandomButton onUpdateGrid={updateGrid} />
-        <ResetButton onUpdateGrid={updateGrid} />
-        <StartPauseButton onUpdateGrid={updateGrid} />
-      </div>
-
-      <div>
-        <GridCanvas
-          grid={data.cells}
-          cellSize={data.cell_size}
-          width={data.width} // Übergebe die Breite des Canvas
-          height={data.height} // Übergebe die Höhe des Canvas
-          cellAges={data.cell_age}
-          onCellClick={async (i, j) => {
-            try {
-              const response = await axios.post("/mouse-coords", { i, j });
-              updateGrid(response.data);
-            } catch (error) {
-              console.error("Error updating cell state: ", error);
-            }
-          }}
-        />
-      </div>
-      <div>
-        <h1>Generation: {generation}</h1>
+      <div className="flex flex-col items-center justify-start h-[80vh]">
+        <div>
+          <h1 className="text-5xl my-20">Game of Life</h1>
+        </div>
+        <div className="my-20">
+          <div
+            className="flex justify-between my-2"
+            style={{ width: `${data.width * data.cell_size}px` }}
+          >
+            <InitializeRandomButton onUpdateGrid={updateGrid} />
+            <ResetButton onUpdateGrid={updateGrid} />
+            <StartPauseButton onUpdateGrid={updateGrid} />
+          </div>
+          <div className="my-2">
+            <GridCanvas
+              grid={data.cells}
+              cellSize={data.cell_size}
+              width={data.width} // Übergebe die Breite des Canvas
+              height={data.height} // Übergebe die Höhe des Canvas
+              cellAges={data.cell_age}
+              onCellClick={async (i, j) => {
+                try {
+                  const response = await axios.post("/mouse-coords", { i, j });
+                  updateGrid(response.data);
+                } catch (error) {
+                  console.error("Error updating cell state: ", error);
+                }
+              }}
+            />
+          </div>
+          <div className="my-2 flex justify-center">
+            <h1 className="text-3xl">Generation: {generation}</h1>
+          </div>
+        </div>
       </div>
     </>
   );
