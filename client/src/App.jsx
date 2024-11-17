@@ -39,9 +39,15 @@ function App() {
 
   return (
     <>
-      <InitializeRandomButton onUpdateGrid={updateGrid} />
-      <ResetButton onUpdateGrid={updateGrid} />
-      <StartPauseButton onUpdateGrid={updateGrid} />
+      <div
+        className="flex justify-between"
+        style={{ width: `${data.width * data.cell_size}px` }}
+      >
+        <InitializeRandomButton onUpdateGrid={updateGrid} />
+        <ResetButton onUpdateGrid={updateGrid} />
+        <StartPauseButton onUpdateGrid={updateGrid} />
+      </div>
+
       <div>
         <GridCanvas
           grid={data.cells}
@@ -59,7 +65,9 @@ function App() {
           }}
         />
       </div>
-      <div>Generation: {generation}</div>
+      <div>
+        <h1>Generation: {generation}</h1>
+      </div>
     </>
   );
 }
