@@ -18,6 +18,8 @@ function App() {
   });
   const [generation, setGeneration] = useState(0);
 
+  const resetGeneration = () => setGeneration(0);
+
   const updateGrid = (newGridData) => {
     setData(newGridData); // Aktualisiert den Gitterzustand
     setGeneration((prevCount) => prevCount + 1);
@@ -49,7 +51,10 @@ function App() {
             style={{ width: `${data.width * data.cell_size}px` }}
           >
             <InitializeRandomButton onUpdateGrid={updateGrid} />
-            <ResetButton onUpdateGrid={updateGrid} />
+            <ResetButton
+              onUpdateGrid={updateGrid}
+              resetGeneration={resetGeneration}
+            />
             <StartPauseButton onUpdateGrid={updateGrid} />
           </div>
           <div className="my-2">
