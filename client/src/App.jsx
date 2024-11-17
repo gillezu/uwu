@@ -23,6 +23,13 @@ function App() {
 
   const resetGeneration = () => setGeneration(0);
 
+  const [fps, setFPS] = useState(10);
+
+  const handleFPSChange = (event) => {
+    const newFPS = event.target.value;
+    setFPS(newFPS);
+  };
+
   const updateGrid = (newGridData) => {
     setData(newGridData); // Aktualisiert den Gitterzustand
     setGeneration((prevCount) => prevCount + 1);
@@ -63,7 +70,7 @@ function App() {
               onUpdateGrid={updateGrid}
               resetGeneration={resetGeneration}
             />
-            <StartPauseButton onUpdateGrid={updateGrid} />
+            <StartPauseButton onUpdateGrid={updateGrid} FPS={fps} />
           </div>
           <div className="my-2">
             <GridCanvas
@@ -82,8 +89,15 @@ function App() {
               }}
             />
           </div>
-          <div className="my-2 flex justify-center">
+          <div className="my-2 flex justify-between">
             <h1 className="text-3xl">Generation: {generation}</h1>
+            <input
+              type="range"
+              min="1"
+              max="30"
+              value={fps}
+              onChange={handleFPSChange}
+            />
           </div>
         </div>
       </div>

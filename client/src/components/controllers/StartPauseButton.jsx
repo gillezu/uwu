@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const StartPauseButton = ({ onUpdateGrid }) => {
+const StartPauseButton = ({ onUpdateGrid, FPS }) => {
   const [isRunning, setIsRunning] = useState(false); // Speichert, ob der Vorgang läuft
   const [intervalId, setIntervalId] = useState(null); // Speichert die Intervall-ID
-  const FPS = 30;
 
   const startProcess = () => {
     const id = setInterval(async () => {
@@ -49,4 +48,3 @@ const StartPauseButton = ({ onUpdateGrid }) => {
 };
 
 export default StartPauseButton;
-
