@@ -10,7 +10,7 @@ function App() {
 
   const fetchRouteApi = async () => {
     try {
-      const response = await axios.get("/initializeRandom");
+      const response = await axios.post("/initializeRandom");
       setData(response.data);
     } catch (error) {
       console.error("Error fetching data: ", error);
