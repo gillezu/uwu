@@ -4,13 +4,20 @@ import axios from "axios";
 import Grid from "./components/Grid";
 import ResetButton from "./components/controllers/ResetButton";
 import StartPauseButton from "./components/controllers/StartPauseButton";
+import GridCanvas from "./components/GridCanvas";
 
 function App() {
-  const [data, setData] = useState("");
+  const [data, setData] = useState({
+    cells: [],
+    cell_age: [],
+    cell_size: 20,
+    width: 0,
+    height: 0,
+  });
 
   const fetchRouteApi = async () => {
     try {
-      const response = await axios.get("/initializeRandom");
+      const response = await axios.post("/initializeRandom");
       setData(response.data);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -43,14 +50,20 @@ function App() {
       <ResetButton onUpdateGrid={updateGrid} />
       <StartPauseButton onUpdateGrid={updateGrid} />
       <div>
-        <Grid
-          grid={data["cells"]}
-          height={data["height"]}
-          width={data["width"]}
-          stats={data["stats"]}
-          cellSize={data["cell_size"]}
-          cellAge={data["cell_age"]}
-          onUpdateGrid={updateGrid}
+        <GridCanvas
+          grid={data.cells}
+          cellSize={data.cell_size}
+          width={data.width} // Übergebe die Breite des Canvas
+          height={data.height} // Übergebe die Höhe des Canvas
+          cellAges={data.cell_age}
+          onCellClick={async (i, j) => {
+            try {
+              const response = await axios.post("/mouse-coords", { i, j });
+              updateGrid(response.data);
+            } catch (error) {
+              console.error("Error updating cell state: ", error);
+            }
+          }}
         />
       </div>
     </>
