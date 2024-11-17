@@ -6,6 +6,7 @@ import ResetButton from "./components/controllers/ResetButton";
 import StartPauseButton from "./components/controllers/StartPauseButton";
 import GridCanvas from "./components/GridCanvas";
 import useFPS from "./hooks/useFPS";
+import InitializeRandomButton from "./components/controllers/InitializeRandomButton";
 
 function App() {
   const [data, setData] = useState({
@@ -15,22 +16,11 @@ function App() {
     width: 0,
     height: 0,
   });
-  const [generation, setGeneration] = useState(0)
+  const [generation, setGeneration] = useState(0);
 
   const updateGrid = (newGridData) => {
     setData(newGridData); // Aktualisiert den Gitterzustand
-    setGeneration((prevCount) => (prevCount + 1))
-  };
-
-  const fetchRouteApi = async () => {
-    try {
-      const response = await axios.post("/initializeRandom");
-      setData(response.data);
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-      setResponse("Error fetching data");
-    }
-    console.log(data);
+    setGeneration((prevCount) => prevCount + 1);
   };
 
   useEffect(() => {
@@ -49,7 +39,7 @@ function App() {
 
   return (
     <>
-      <button onClick={fetchRouteApi}>Initialize Random</button>
+      <InitializeRandomButton onUpdateGrid={updateGrid} />
       <ResetButton onUpdateGrid={updateGrid} />
       <StartPauseButton onUpdateGrid={updateGrid} />
       <div>
