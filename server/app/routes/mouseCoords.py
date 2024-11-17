@@ -1,7 +1,10 @@
 from flask import Blueprint, jsonify, request
 from grid import grid
+
 # Create a blueprint for the route
 mouse_coords_bp = Blueprint("mouse_coords", __name__)
+
+
 @mouse_coords_bp.route("/mouse-coords", methods=["POST"])
 def receive_mouse_coords():
     data = request.json  # Empfange die Mauskoordinaten

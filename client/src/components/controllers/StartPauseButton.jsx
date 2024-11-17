@@ -16,7 +16,7 @@ const StartPauseButton = ({ onUpdateGrid }) => {
       } catch (error) {
         console.error("Error fetching next generation:", error);
       }
-    }, 1/FPS); // Führt die Funktion alle 500ms aus
+    }, 1000/FPS); // Führt die Funktion alle 500ms aus
     setIntervalId(id);
   };
 

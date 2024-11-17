@@ -5,6 +5,7 @@ import Grid from "./components/Grid";
 import ResetButton from "./components/controllers/ResetButton";
 import StartPauseButton from "./components/controllers/StartPauseButton";
 import GridCanvas from "./components/GridCanvas";
+import useFPS from "./hooks/useFPS";
 
 function App() {
   const [data, setData] = useState({
@@ -14,6 +15,12 @@ function App() {
     width: 0,
     height: 0,
   });
+  const [generation, setGeneration] = useState(0)
+
+  const updateGrid = (newGridData) => {
+    setData(newGridData); // Aktualisiert den Gitterzustand
+    setGeneration((prevCount) => (prevCount + 1))
+  };
 
   const fetchRouteApi = async () => {
     try {
@@ -24,10 +31,6 @@ function App() {
       setResponse("Error fetching data");
     }
     console.log(data);
-  };
-
-  const updateGrid = (newGridData) => {
-    setData(newGridData); // Aktualisiert den Gitterzustand
   };
 
   useEffect(() => {
@@ -66,6 +69,7 @@ function App() {
           }}
         />
       </div>
+      <div>Generation: {generation}</div>
     </>
   );
 }

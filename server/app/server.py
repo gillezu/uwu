@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from grid import grid
+from routes.initializeRandom import initialize_random_bp
 from routes.resetGrid import reset_grid_bp
 from routes.mouseCoords import mouse_coords_bp
 from routes.nextGeneration import next_generation_bp
-from routes.resetGrid import reset_grid_bp
 
 # Initialize app
 app = Flask(__name__)

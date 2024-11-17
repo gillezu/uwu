@@ -1,7 +1,10 @@
 from flask import Blueprint, jsonify, request
 from grid import grid
+
 # Create a blueprint for the route
 next_generation_bp = Blueprint("next_generation", __name__)
+
+
 @next_generation_bp.route("/nextGeneration", methods=["GET"])
 def next_generation():
     try:
