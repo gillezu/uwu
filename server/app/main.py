@@ -16,12 +16,13 @@ class CellState(Enum):
 
 # Class for each cell in the grid
 class Cell:
-    def __init__(self, x: int, y: int, state: CellState = CellState.DEAD):
+    def __init__(self, x: int, y: int, state: CellState = CellState.DEAD, freezed: bool = False):
         self.x = x
         self.y = y
         self.state = state
         self.next_state = state  # Stores the next state after applying rules
         self.time_not_changed = 0
+        self.freezed = freezed
 
     def determine_next_state(self, neighbors: List['Cell']):
         """Determine the cell's next state based on Game of Life rules."""
@@ -34,7 +35,8 @@ class Cell:
 
         '''Count for time, that a cell did not change'''
         if self.state == self.next_state:
-            self.time_not_changed += 1
+            if not self.freezed:
+                self.time_not_changed += 1
         else:
             self.time_not_changed = 0
 
@@ -84,7 +86,8 @@ class Grid:
         # Update state to the next state
         for row in self.cells:
             for cell in row:
-                cell.update_state()
+                if not cell.freezed:
+                    cell.update_state()
 
     def apply_lightning(self, pos_x: int, pos_y: int):
         for i, row in enumerate(self.cells):
@@ -94,6 +97,18 @@ class Grid:
                         cell.next_state = CellState.ALIVE if cell.state == CellState.DEAD else CellState.DEAD
                         cell.time_not_changed = 0
                         cell.update_state()
+    
+    def apply_freeze(self, pos_x: int, pos_y: int):
+        for i, row in enumerate(self.cells):
+            if math.sqrt(pow(i - pos_x, 2)) <= 10:
+                for j, cell in enumerate(row):
+                    if math.sqrt(pow(i - pos_x, 2) + pow(j - pos_y, 2)) <= 10:
+                        cell.freezed = True
+
+    def apply_unfreeze(self):
+        for i, row in enumerate(self.cells):
+            for j, cell in enumerate(row):
+                cell.freezed = False
     
     def apply_earthquake(self):
         for row in self.cells:
@@ -118,12 +133,28 @@ class Grid:
                 #color = (0, 255, 0) if cell.state == CellState.ALIVE else (0, 0, 0)
                 #changing colors and calculating stats
                 if cell.state == CellState.ALIVE:
-                    color = (max(255 - 2*cell.time_not_changed, 0), min(cell.time_not_changed, 255), max(255 - 0.5*cell.time_not_changed, 0))
+                    if not cell.freezed:
+                        r = max(255 - 2*cell.time_not_changed, 0)
+                        g = min(cell.time_not_changed, 255)
+                        b = max(255 - 0.5*cell.time_not_changed, 0)
+                        color = (r, g, b)
+                    elif cell.freezed:
+                        r = int(max(255 - 2*cell.time_not_changed, 0)*0.8)
+                        g = int(min(cell.time_not_changed, 255)*0.9)
+                        b = int(max(255 - 0.5*cell.time_not_changed, 0) + (255 - max(255 - 0.5*cell.time_not_changed, 0))*0.2)
+                        color = (r, g, b)
                     self.stats[0] += 1
                     if cell.time_not_changed == 0:
                         self.stats[2] += 1
                 else:
-                    color = (max(255 - cell.time_not_changed, 0), max(255 - cell.time_not_changed, 0), max(255 - cell.time_not_changed, 0))
+                    if not cell.freezed:
+                        r, g, b = max(255 - cell.time_not_changed, 0), max(255 - cell.time_not_changed, 0), max(255 - cell.time_not_changed, 0)
+                        color = (r, g, b)
+                    elif cell.freezed:
+                        r = int(max(255 - cell.time_not_changed, 0)*0.8)
+                        g = int(max(255 - cell.time_not_changed, 0)*0.9)
+                        b = int(max(255 - cell.time_not_changed, 0) + (255 - max(255 - cell.time_not_changed, 0))*0.2)
+                        color = (r, g, b)
                     self.stats[1] += 1
                     if cell.time_not_changed == 0:
                         self.stats[3] += 1
@@ -158,6 +189,10 @@ class GameOfLife:
             self.grid.apply_lightning(pos_x, pos_y)
         elif key == 1:
             self.grid.apply_earthquake()
+        elif key == 2:
+            self.grid.apply_freeze(pos_x, pos_y)
+        elif key == 3:
+            self.grid.apply_unfreeze()
 
 #Buttons
 red_button = pygame.Surface((50, 50)) 
@@ -230,12 +265,17 @@ def main():
                 if event.key == pygame.K_l:
                     if 0<=pos[0]<=(grid_width * cell_size) and 0<=pos[1]<=(grid_height * cell_size):
                         game.apply_spell(0, pos[0]/cell_size, pos[1]/cell_size)
+                if event.key == pygame.K_f:
+                    if 0<=pos[0]<=(grid_width * cell_size) and 0<=pos[1]<=(grid_height * cell_size):
+                        game.apply_spell(2, pos[0]/cell_size, pos[1]/cell_size)
                 elif event.key == pygame.K_e:
                     game.apply_spell(1)
                 elif event.key == pygame.K_c:
                     game.grid.reset_field()
                     count = 0
                     started = False
+                elif event.key == pygame.K_u:
+                    game.apply_spell(3)
                 elif event.key == pygame.K_UP:
                     FPS += 5
                 elif event.key == pygame.K_DOWN:
