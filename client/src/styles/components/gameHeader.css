@@ -1,0 +1,16 @@
+@import "../animations/moveGradient.css";
+@import "../animations/pulse.css";
+
+.game-header::after {
+  content: ""; /* Add an empty content to create the underline */
+  position: absolute;
+  bottom: -10px; /* Position it below the text */
+  left: 0;
+  width: 100%;
+  height: 4px; /* Adjust height as needed for the underline */
+  background: linear-gradient(90deg, #3498db, #8e44ad, #e74c3c, #f1c40f);
+  background-size: 200% 200%;
+  animation:
+    gradientMove 3s ease infinite,
+    pulse 3s ease-in-out infinite;
+}

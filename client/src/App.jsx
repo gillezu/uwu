@@ -7,6 +7,9 @@ import StartPauseButton from "./components/controllers/StartPauseButton";
 import GridCanvas from "./components/GridCanvas";
 import useFPS from "./hooks/useFPS";
 import InitializeRandomButton from "./components/controllers/InitializeRandomButton";
+import "./styles/animations/pulse.css";
+import "./styles/animations/moveGradient.css";
+import "./styles/components/gameHeader.css";
 
 function App() {
   const [data, setData] = useState({
@@ -42,8 +45,13 @@ function App() {
   return (
     <>
       <div className="flex flex-col items-center justify-start h-[80vh]">
-        <div>
-          <h1 className="text-5xl my-20">Game of Life</h1>
+        <div className="pulse my-20">
+          <h1
+            className="text-5xl text-transparent bg-gradient-to-r from-blue-500 
+            via-purple-500 to-red-500 bg-clip-text move-gradient-text game-header"
+          >
+            Game of Life
+          </h1>
         </div>
         <div className="my-20">
           <div
