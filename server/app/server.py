@@ -1,7 +1,12 @@
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from grid import grid
 from routes.initializeRandom import initialize_random_bp
+from routes.mouseCoords import mouse_coords_bp
+from routes.nextGeneration import next_generation_bp
+from routes.resetGrid import reset_grid_bp
 from routes.mouseCoords import mouse_coords_bp
 from routes.nextGeneration import next_generation_bp
 from routes.resetGrid import reset_grid_bp
@@ -20,6 +25,10 @@ def hello_world():
 
 
 app.register_blueprint(initialize_random_bp)
+app.register_blueprint(reset_grid_bp)
+app.register_blueprint(mouse_coords_bp)
+app.register_blueprint(next_generation_bp)
+
 app.register_blueprint(reset_grid_bp)
 app.register_blueprint(mouse_coords_bp)
 app.register_blueprint(next_generation_bp)
