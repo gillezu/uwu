@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import axios from "axios";
+import { io } from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import ResetButton from "./components/controllers/ResetButton";
@@ -12,13 +12,15 @@ import "./styles/animations/pulse.css";
 import "./styles/animations/moveGradient.css";
 import "./styles/components/gameHeader.css";
 
+const socket = io("http://localhost:5000"); // Verbindung zum Server
+
 function App() {
   const [data, setData] = useState({
-    cells: [],
-    cell_age: [],
-    cell_size: 20,
-    width: 0,
-    height: 0,
+    cells: [[]],
+    cell_age: [[]],
+    cell_size: 5,
+    width: 10,
+    height: 10,
   });
   const [generation, setGeneration] = useState(0);
 
@@ -36,19 +38,30 @@ function App() {
     setGeneration((prevCount) => prevCount + 1);
   };
 
+  // Socket.IO: Registriere Event-Listener für den Server
+  useEffect(() => {
+    // Empfange aktualisierte Gitterdaten vom Server
+    socket.on("grid_updated", (updatedGrid) => {
+    setData(updatedGrid);
+    });
+
+    return () => {
+      socket.off("grid_updated");
+    };
+  }, []);
+
   useEffect(() => {
     const fetchInitialGrid = async () => {
-      try {
-        const response = await axios.get("/");
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-        setResponse("Error fetching data");
-      }
-      console.log(data);
+      socket.emit("initialize_grid", null, (response) => {
+        if (response) {
+          setData(response); // Stelle sicher, dass die Antwort korrekt verarbeitet wird
+        } else {
+          console.error("Failed to fetch initial grid data");
+        }
+      });
     };
     fetchInitialGrid();
-  }, []);
+  }, []); 
 
   return (
     <>
@@ -66,23 +79,24 @@ function App() {
             className="flex justify-between my-2"
             style={{ width: `${data.width * data.cell_size}px` }}
           >
-            <InitializeRandomButton onUpdateGrid={updateGrid} />
+            <InitializeRandomButton socket={socket} onUpdateGrid={updateGrid} />
             <ResetButton
+              socket={socket}
               onUpdateGrid={updateGrid}
               resetGeneration={resetGeneration}
             />
-            <StartPauseButton onUpdateGrid={updateGrid} FPS={fps} />
+            <StartPauseButton socket={socket} onUpdateGrid={updateGrid} FPS={fps} />
           </div>
           <div className="my-2">
             <GridCanvas
-              grid={data.cells}
+              grid={data.cells || Array(data.height).fill(Array(data.width).fill(0))}
               cellSize={data.cell_size}
               width={data.width} // Übergebe die Breite des Canvas
               height={data.height} // Übergebe die Höhe des Canvas
-              cellAges={data.cell_age}
+              cellAges={data.cell_age || Array(data.height).fill(Array(data.width).fill(0))}
               onCellClick={async (i, j) => {
                 try {
-                  const response = await axios.post("/mouse-coords", { i, j });
+                  const response = socket.emit("mouse_coords", { i, j });
                   updateGrid(response.data);
                 } catch (error) {
                   console.error("Error updating cell state: ", error);

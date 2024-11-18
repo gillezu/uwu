@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 
-const StartPauseButton = ({ onUpdateGrid, FPS }) => {
+const StartPauseButton = ({ socket, onUpdateGrid, FPS }) => {
   const [isRunning, setIsRunning] = useState(false); // Speichert, ob der Vorgang läuft
   const [intervalId, setIntervalId] = useState(null); // Speichert die Intervall-ID
 
   const startProcess = () => {
-    const id = setInterval(async () => {
-      try {
-        // Hole die nächste Generation mit Axios vom Server
-        const response = await axios.get("/nextGeneration");
-        console.log("Grid updated:", response.data);
-        onUpdateGrid(response.data); // Aktualisiere das Grid im Frontend
-      } catch (error) {
-        console.error("Error fetching next generation:", error);
-      }
-    }, 1000 / FPS); // Führt die Funktion alle 500ms aus
+    const id = setInterval(() => {
+      socket.emit("next_generation", null, (response) => {
+        if (response) {
+          onUpdateGrid(response); // Aktualisiere das Grid mit der Server-Antwort
+        }
+      });
+    }, 1000 / FPS);
     setIntervalId(id);
   };
 

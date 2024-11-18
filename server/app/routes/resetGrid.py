@@ -1,15 +1,16 @@
-from flask import Blueprint, jsonify, request
+from flask_socketio import emit
+from flask import Blueprint
 from grid import grid
+from extensions import socketio
 
 # Create a blueprint for the route
 reset_grid_bp = Blueprint("reset_grid", __name__)
 
 
-@reset_grid_bp.route("/resetGrid", methods=["POST"])
-def reset_grid():
-    try:
-        grid.reset_field()
-        return jsonify(grid.to_dict()), 200
-    except Exception as e:
-        print(f"Error resetting grid: {e}")
-        return jsonify({"error": "Failed to reset grid"}), 500
+@socketio.on("resetGrid")
+def reset_grid(callback=None):
+    grid.reset_field()
+    print("Grid reset")
+    emit("grid_updated", grid.to_dict(), broadcast=True)
+    if callback:  # Rückgabe an den aufrufenden Client
+        callback(grid.to_dict())

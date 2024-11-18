@@ -1,14 +1,16 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
+from flask_socketio import emit
 from grid import grid
+from extensions import socketio
 
 # Create a blueprint for the route
 initialize_random_bp = Blueprint("initialize_random", __name__)
 
 
-@initialize_random_bp.route("/initializeRandom", methods=["POST"])
-def initialize_random():
+@socketio.on("initializeRandom")
+def initialize_random(callback=None):
     grid.initialize_random()
-    for row in grid.cells:
-        for cell in row:
-            print(cell.state)
-    return jsonify(grid.to_dict()), 200
+    print("Grid initialized randomly")
+    emit("grid_updated", grid.to_dict(), broadcast=True)
+    if callback:  # Rückgabe an den aufrufenden Client
+        callback(grid.to_dict())

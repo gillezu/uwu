@@ -4,6 +4,12 @@ const Grid = ({ grid, cellSize, cellAges, width, height, onCellClick }) => {
   const canvasRef = useRef(null);
 
   const drawGrid = (grid, cellAges, ctx) => {
+    if (!grid || !cellAges) {
+      console.error("drawGrid wurde mit ungültigen Daten aufgerufen!");
+      return;
+    }
+
+
     ctx.clearRect(0, 0, width * cellSize, height * cellSize);
 
     const getColor = (age, isAlive) => {
@@ -30,9 +36,20 @@ const Grid = ({ grid, cellSize, cellAges, width, height, onCellClick }) => {
   };
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    drawGrid(grid, cellAges, ctx);
+    if (!grid || !cellAges) {
+      console.warn("grid oder cellAges sind nicht definiert!");
+      return;
+    }
+
+    console.log("Aktueller Zustand von grid:", grid);
+    console.log("Aktueller Zustand von cellAges:", cellAges);
+
+
+    if (grid && cellAges) {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      drawGrid(grid, cellAges, ctx);
+    }
   }, [grid, cellAges, cellSize, width, height]);
 
   const handleCanvasClick = (event) => {

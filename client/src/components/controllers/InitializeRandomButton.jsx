@@ -1,17 +1,14 @@
-import axios from "axios";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
-function InitializeRandomButton({ onUpdateGrid }) {
-  const initializeRandom = async () => {
-    try {
-      const response = await axios.post("/initializeRandom");
-      onUpdateGrid(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    }
+function InitializeRandomButton({ socket, onUpdateGrid }) {
+  const initializeRandom = () => {
+    socket.emit("initialize_random", null, (response) => {
+      if (response) {
+        onUpdateGrid(response);
+      }
+    });
   };
   return (
     <button onClick={initializeRandom} className="w-[30%]">
