@@ -1,5 +1,7 @@
 import axios from "axios";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 function InitializeRandomButton({ onUpdateGrid }) {
   const initializeRandom = async () => {
@@ -13,7 +15,7 @@ function InitializeRandomButton({ onUpdateGrid }) {
   };
   return (
     <button onClick={initializeRandom} className="w-[30%]">
-      Initialize Random
+      <FontAwesomeIcon icon={faShuffle} />
     </button>
   );
 }

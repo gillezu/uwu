@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 
 const StartPauseButton = ({ onUpdateGrid, FPS }) => {
   const [isRunning, setIsRunning] = useState(false); // Speichert, ob der Vorgang läuft
@@ -42,7 +44,11 @@ const StartPauseButton = ({ onUpdateGrid, FPS }) => {
 
   return (
     <button onClick={toggleProcess} className="w-[30%]">
-      {isRunning ? "Stop" : "Start"}
+      {isRunning ? (
+        <FontAwesomeIcon icon={faStop} />
+      ) : (
+        <FontAwesomeIcon icon={faPlay} />
+      )}
     </button>
   );
 };

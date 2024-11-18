@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import Grid from "./components/Grid";
 import ResetButton from "./components/controllers/ResetButton";
 import StartPauseButton from "./components/controllers/StartPauseButton";

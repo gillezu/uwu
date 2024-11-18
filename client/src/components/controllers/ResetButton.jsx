@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 
 function ResetButton({ onUpdateGrid, resetGeneration }) {
   const resetGrid = async () => {
@@ -15,7 +17,7 @@ function ResetButton({ onUpdateGrid, resetGeneration }) {
   };
   return (
     <button onClick={resetGrid} className="w-[30%]">
-      Reset Grid
+      <FontAwesomeIcon icon={faRefresh} />
     </button>
   );
 }
