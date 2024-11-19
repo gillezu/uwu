@@ -5,24 +5,25 @@ import { io } from "socket.io-client";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import ResetButton from "./components/controllers/ResetButton";
 import StartPauseButton from "./components/controllers/StartPauseButton";
-import GridCanvas from "./components/GridCanvas";
 import useFPS from "./hooks/useFPS";
-import InitializeRandomButton from "./components/controllers/InitializeRandomButton";
 import "./styles/animations/pulse.css";
 import "./styles/animations/moveGradient.css";
 import "./styles/components/gameHeader.css";*/
 import axios from "axios";
-
-const socket = io("http://localhost:5000"); // Verbindung zum Server
+import { socket } from "./utils/socketioSetup";
+import InitializeRandomButton from "./components/controllers/InitializeRandomButton";
+import GridCanvas from "./components/GridCanvas";
 
 function App() {
   const [data, setData] = useState({
-    cells: [[]],
     cell_age: [[]],
     cell_size: 5,
-    width: 10,
+    cells: [[]],
     height: 10,
+    width: 10,
   });
+
+  const [loading, setLoading] = useState(true);
   const [generation, setGeneration] = useState(0);
 
   const resetGeneration = () => setGeneration(0);
@@ -36,7 +37,8 @@ function App() {
 
   const updateGrid = (newGridData) => {
     setData(newGridData); // Aktualisiert den Gitterzustand
-    setGeneration((prevCount) => prevCount + 1);
+    //setGeneration((prevCount) => prevCount + 1);
+    // console.log(data);
   };
 
   /* Socket.IO: Registriere Event-Listener für den Server
@@ -56,18 +58,44 @@ function App() {
       try {
         const response = await axios.get("/initialize_grid");
         setData(response.data);
-        console.log(response.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
-      console.log(data);
     };
     fetchInitialGrid();
   }, []);
 
+  useEffect(() => {
+    console.log(data);
+    console.log(loading);
+  }, [data]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <>
       <h1>Hi</h1>
+      <InitializeRandomButton socket={socket} onUpdateGrid={updateGrid} />
+      <GridCanvas
+        grid={data.cells || Array(data.height).fill(Array(data.width).fill(0))}
+        cellSize={data.cell_size}
+        width={data.width} // Übergebe die Breite des Canvas
+        height={data.height} // Übergebe die Höhe des Canvas
+        cellAges={
+          data.cell_age || Array(data.height).fill(Array(data.width).fill(0))
+        }
+        onCellClick={async (i, j) => {
+          try {
+            const response = socket.emit("mouse_coords", { i, j });
+            updateGrid(response.data);
+          } catch (error) {
+            console.error("Error updating cell state: ", error);
+          }
+        }}
+      />
       {/*
       <div className="flex flex-col items-center justify-start h-[80vh]">
         <div className="pulse my-20">
@@ -82,9 +110,8 @@ function App() {
           <div
             className="flex justify-between my-2"
             style={{ width: `${data.width * data.cell_size}px` }}
-          >
-            <InitializeRandomButton socket={socket} onUpdateGrid={updateGrid} />
-            <ResetButton
+          >*/
+      /*<ResetButton
               socket={socket}
               onUpdateGrid={updateGrid}
               resetGeneration={resetGeneration}
@@ -96,26 +123,6 @@ function App() {
             />
           </div>
           <div className="my-2">
-            <GridCanvas
-              grid={
-                data.cells || Array(data.height).fill(Array(data.width).fill(0))
-              }
-              cellSize={data.cell_size}
-              width={data.width} // Übergebe die Breite des Canvas
-              height={data.height} // Übergebe die Höhe des Canvas
-              cellAges={
-                data.cell_age ||
-                Array(data.height).fill(Array(data.width).fill(0))
-              }
-              onCellClick={async (i, j) => {
-                try {
-                  const response = socket.emit("mouse_coords", { i, j });
-                  updateGrid(response.data);
-                } catch (error) {
-                  console.error("Error updating cell state: ", error);
-                }
-              }}
-            />
           </div>
           <div className="my-2 flex justify-between">
             <h1 className="text-3xl">Generation: {generation}</h1>

@@ -3,8 +3,8 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_socketio import emit
 from grid import grid
+from routes.initializeRandom import initialize_random_bp
 
-# from routes.initializeRandom import initialize_random_bp
 # from routes.mouseCoords import mouse_coords_bp
 # from routes.nextGeneration import next_generation_bp
 # from routes.resetGrid import reset_grid_bp
@@ -16,13 +16,12 @@ CORS(app)
 
 
 @app.route("/initialize_grid", methods=["GET"])
-def hello_world(callback=None):
+def hello_world():
     print("http successfull")
-    print(grid.to_dict())
     return jsonify(grid.to_dict()), 200
 
 
-# app.register_blueprint(initialize_random_bp)
+app.register_blueprint(initialize_random_bp)
 # app.register_blueprint(reset_grid_bp)
 # app.register_blueprint(mouse_coords_bp)
 # app.register_blueprint(next_generation_bp)
