@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import { io } from "socket.io-client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+/*import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import ResetButton from "./components/controllers/ResetButton";
 import StartPauseButton from "./components/controllers/StartPauseButton";
@@ -10,7 +10,8 @@ import useFPS from "./hooks/useFPS";
 import InitializeRandomButton from "./components/controllers/InitializeRandomButton";
 import "./styles/animations/pulse.css";
 import "./styles/animations/moveGradient.css";
-import "./styles/components/gameHeader.css";
+import "./styles/components/gameHeader.css";*/
+import axios from "axios";
 
 const socket = io("http://localhost:5000"); // Verbindung zum Server
 
@@ -38,33 +39,36 @@ function App() {
     setGeneration((prevCount) => prevCount + 1);
   };
 
-  // Socket.IO: Registriere Event-Listener für den Server
+  /* Socket.IO: Registriere Event-Listener für den Server
   useEffect(() => {
     // Empfange aktualisierte Gitterdaten vom Server
     socket.on("grid_updated", (updatedGrid) => {
-    setData(updatedGrid);
+      setData(updatedGrid);
     });
 
     return () => {
       socket.off("grid_updated");
     };
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     const fetchInitialGrid = async () => {
-      socket.emit("initialize_grid", null, (response) => {
-        if (response) {
-          setData(response); // Stelle sicher, dass die Antwort korrekt verarbeitet wird
-        } else {
-          console.error("Failed to fetch initial grid data");
-        }
-      });
+      try {
+        const response = await axios.get("/initialize_grid");
+        setData(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+      console.log(data);
     };
     fetchInitialGrid();
-  }, []); 
+  }, []);
 
   return (
     <>
+      <h1>Hi</h1>
+      {/*
       <div className="flex flex-col items-center justify-start h-[80vh]">
         <div className="pulse my-20">
           <h1
@@ -85,15 +89,24 @@ function App() {
               onUpdateGrid={updateGrid}
               resetGeneration={resetGeneration}
             />
-            <StartPauseButton socket={socket} onUpdateGrid={updateGrid} FPS={fps} />
+            <StartPauseButton
+              socket={socket}
+              onUpdateGrid={updateGrid}
+              FPS={fps}
+            />
           </div>
           <div className="my-2">
             <GridCanvas
-              grid={data.cells || Array(data.height).fill(Array(data.width).fill(0))}
+              grid={
+                data.cells || Array(data.height).fill(Array(data.width).fill(0))
+              }
               cellSize={data.cell_size}
               width={data.width} // Übergebe die Breite des Canvas
               height={data.height} // Übergebe die Höhe des Canvas
-              cellAges={data.cell_age || Array(data.height).fill(Array(data.width).fill(0))}
+              cellAges={
+                data.cell_age ||
+                Array(data.height).fill(Array(data.width).fill(0))
+              }
               onCellClick={async (i, j) => {
                 try {
                   const response = socket.emit("mouse_coords", { i, j });
@@ -115,7 +128,7 @@ function App() {
             />
           </div>
         </div>
-      </div>
+      </div>*/}
     </>
   );
 }
