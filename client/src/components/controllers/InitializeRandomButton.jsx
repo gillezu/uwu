@@ -2,16 +2,10 @@ import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
-function InitializeRandomButton({ socket, onUpdateGrid }) {
+function InitializeRandomButton({ socket }) {
   const initializeRandom = () => {
     socket.emit("initializeRandom");
   };
-
-  useEffect(() => {
-    socket.on("randomGrid", (response) => {
-      onUpdateGrid(response);
-    });
-  }, []);
 
   return (
     <button onClick={initializeRandom} className="w-[30%]">
