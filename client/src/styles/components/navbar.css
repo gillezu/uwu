@@ -1,0 +1,18 @@
+.underline_custom {
+  position: relative;
+}
+
+.underline_custom::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 15%;
+  width: 0%;
+  height: 1px;
+  background-color: #fff;
+  transition: width 0.3s ease-in;
+}
+
+.underline_custom:hover::after {
+  width: 70%;
+}
