@@ -27,7 +27,7 @@ function App() {
 
   const resetGeneration = () => setGeneration(-1);
 
-  const [fps, setFPS] = useState(30);
+  const [fps, setFPS] = useState(20);
 
   const handleFPSChange = (event) => {
     const newFPS = event.target.value;
