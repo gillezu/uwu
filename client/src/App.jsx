@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { io } from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import ResetButton from "./components/controllers/ResetButton";
@@ -26,7 +25,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [generation, setGeneration] = useState(0);
 
-  const resetGeneration = () => setGeneration(0);
+  const resetGeneration = () => setGeneration(-1);
 
   const [fps, setFPS] = useState(30);
 
@@ -62,8 +61,8 @@ function App() {
 
   if (loading) {
     return <h1>Loading <FontAwesomeIcon icon={faSpinner} /></h1>;
-  }
-
+  };
+  
   return (
     <>
       <div className="flex flex-col items-center justify-start h-[80vh]">
@@ -80,14 +79,14 @@ function App() {
             className="flex justify-between my-2"
             style={{ width: `${data.width * data.cell_size}px` }}
           >
-            <InitializeRandomButton socket={socket}/>
-            <ResetButton
-              socket={socket}
-              resetGeneration={resetGeneration}
-            />
+            <InitializeRandomButton socket={socket} resetGeneration={resetGeneration}/>
             <StartPauseButton
               socket={socket}
               FPS={fps}
+            />
+            <ResetButton
+              socket={socket}
+              resetGeneration={resetGeneration}
             />
           </div>
           <div className="my-2">
@@ -101,11 +100,16 @@ function App() {
               }
               onCellClick={async (i, j) => {
                   socket.emit("mouseCoords", { i, j });
+                  resetGeneration();
               }}
+              onKeyPress={async (i, j) => {
+                socket.emit("mouseCoords", { i, j });
+            }}
             />
           </div>
           <div className="my-2 flex justify-between">
             <h1 className="text-3xl">Generation: {generation}</h1>
+            <h1 className="text-3xl">FPS: {fps}</h1>
             <input
               type="range"
               min="1"

@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
-function InitializeRandomButton({ socket }) {
+function InitializeRandomButton({ socket, resetGeneration }) {
   const initializeRandom = () => {
     socket.emit("initializeRandom");
+    resetGeneration();
   };
 
   return (

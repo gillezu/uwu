@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
-const Grid = ({ grid, cellSize, cellAges, width, height, onCellClick }) => {
+const Grid = ({ grid, cellSize, cellAges, width, height, onCellClick, onKeyPress }) => {
   const canvasRef = useRef(null);
+  const [coords, setCoords] = useState({ x: 5, y: 5 });
 
   const drawGrid = (grid, cellAges, ctx) => {
     if (!grid || !cellAges) {
@@ -51,6 +52,49 @@ const Grid = ({ grid, cellSize, cellAges, width, height, onCellClick }) => {
       drawGrid(grid, cellAges, ctx);
     }
   }, [grid, cellAges, cellSize, width, height]);
+
+  useEffect(() => {
+    // Mausbewegung verfolgen
+    const handleMouseMove = (event) => {
+        setCoords({ x: event.clientX, y: event.clientY });
+    };
+
+    // Events hinzufügen
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup
+    return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("keydown", handleKeyDown);
+    };
+}, []);
+
+  const handleKeyDown = (event) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const x = coords.x - rect.left;
+    const y = coords.y - rect.top;
+    const i = Math.floor(y / cellSize);
+    const j = Math.floor(x / cellSize);
+    console.log(coords)
+    switch (event.key) {
+        case "ArrowUp":
+            onCellClick(i, j);
+            break;
+        case "ArrowDown":
+            console.log("Pfeil nach unten gedrückt!");
+            break;
+        case "ArrowLeft":
+            console.log("Pfeil nach links gedrückt!");
+            break;
+        case "ArrowRight":
+            console.log("Pfeil nach rechts gedrückt!");
+            break;
+        default:
+            console.log(`Andere Taste: ${event.key}`);
+    }
+  }
 
   const handleCanvasClick = (event) => {
     const canvas = canvasRef.current;
