@@ -66,6 +66,7 @@ function App() {
   return (
     <>
       <div className="flex flex-col items-center justify-start h-[80vh]">
+        <h2>School project</h2>
         <div className="pulse my-20">
           <h1
             className="text-5xl text-transparent bg-gradient-to-r from-blue-500 
