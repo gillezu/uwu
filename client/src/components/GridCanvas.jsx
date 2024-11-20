@@ -42,10 +42,6 @@ const Grid = ({ grid, cellSize, cellAges, width, height, onCellClick, onKeyPress
       return;
     }
 
-    console.log("Aktueller Zustand von grid:", grid);
-    console.log("Aktueller Zustand von cellAges:", cellAges);
-
-
     if (grid && cellAges) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");

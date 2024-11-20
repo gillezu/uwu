@@ -8,7 +8,6 @@ const StartPauseButton = ({ socket, FPS }) => {
 
   const startProcess = () => {
     const id = setInterval(() => {
-      console.log('requesting')
       socket.emit("nextGeneration");
     }, 1000 / FPS);
     setIntervalId(id);
@@ -20,7 +19,6 @@ const StartPauseButton = ({ socket, FPS }) => {
   };
 
   const toggleProcess = () => {
-    console.log('Button toggled')
     if (isRunning) {
       stopProcess(); // Stoppt den Prozess
     } else {

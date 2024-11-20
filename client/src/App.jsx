@@ -55,8 +55,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(data);
-    console.log(loading);
   }, [data]);
 
   if (loading) {
