@@ -12,6 +12,7 @@ import axios from "axios";
 import { socket } from "./utils/socketioSetup";
 import InitializeRandomButton from "./components/controllers/InitializeRandomButton";
 import GridCanvas from "./components/GridCanvas";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [data, setData] = useState({
@@ -62,9 +63,9 @@ function App() {
   };
   
   return (
-    <>
+    <div className="flex flex-col items-center justify-start h-screen w-screen bg-black">
+      <Navbar />
       <div className="flex flex-col items-center justify-start h-[80vh]">
-        <h2>School project</h2>
         <div className="pulse my-20">
           <h1
             className="text-5xl text-transparent bg-gradient-to-r from-blue-500 
@@ -108,8 +109,8 @@ function App() {
             />
           </div>
           <div className="my-2 flex justify-between">
-            <h1 className="text-3xl">Generation: {generation}</h1>
-            <h1 className="text-3xl">FPS: {fps}</h1>
+            <h1 className="text-3xl text-white">Generation: {generation}</h1>
+            <h1 className="text-3xl text-white">FPS: {fps}</h1>
             <input
               type="range"
               min="1"
@@ -120,7 +121,7 @@ function App() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

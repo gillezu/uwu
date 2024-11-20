@@ -1,0 +1,1 @@
+export const navLists = ["Stats", "Settings", "Library", "About us"];
