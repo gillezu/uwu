@@ -97,12 +97,13 @@ function App() {
               cellAges={
                 data.cell_age || Array(data.height).fill(Array(data.width).fill(0))
               }
+              cellfreezed={data.freezed}
               onCellClick={async (i, j) => {
                   socket.emit("mouseCoords", { i, j });
                   resetGeneration();
               }}
-              onKeyPress={async (i, j) => {
-                socket.emit("mouseCoords", { i, j });
+              onKeyPress={async (key, i, j) => {
+                socket.emit("keyPress", { key, i, j });
             }}
             />
           </div>

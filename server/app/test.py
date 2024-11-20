@@ -10,12 +10,13 @@ class CellState(Enum):
 
 
 class Cell:
-    def __init__(self, x: int, y: int, state: CellState = CellState.DEAD) -> None:
+    def __init__(self, x: int, y: int, state: CellState = CellState.DEAD, freezed: bool = False) -> None:
         self.x = x
         self.y = y
         self.state = state
         self.next_state = state  # Stores the next state after applying rules
         self.time_not_changed = 0
+        self.freezed = freezed
 
     def determine_next_state(self, neighbors: List['Cell']):
         """Determine the cell's next state based on Game of Life rules."""
@@ -52,7 +53,8 @@ class Grid:
             "cells": [[cell.state.value for cell in row] for row in self.cells],
             "stats": self.stats,
             "cell_size": self.cell_size,
-            "cell_age": [[cell.time_not_changed for cell in row] for row in self.cells]
+            "cell_age": [[cell.time_not_changed for cell in row] for row in self.cells],
+            "freezed": [[cell.freezed for cell in row] for row in self.cells]
         }
 
     def initialize_random(self):
@@ -96,5 +98,44 @@ class Grid:
                 cell.determine_next_state(neighbors)
         for row in self.cells:
             for cell in row:
+                if not cell.freezed:
+                    cell.update_state()
+
+    def apply_spell(self, key: int, pos_x: int = None, pos_y: int = None):
+        if key == 0:
+            self.apply_lightning(pos_x, pos_y)
+        elif key == 1:
+            self.apply_earthquake()
+        elif key == 2:
+            self.apply_freeze(pos_x, pos_y)
+        elif key == 3:
+            self.apply_unfreeze()
+
+    def apply_lightning(self, pos_x: int, pos_y: int):
+        for i, row in enumerate(self.cells):
+            if math.sqrt(pow(i - pos_x, 2)) <= 10:
+                for j, cell in enumerate(row):
+                    if math.sqrt(pow(i - pos_x, 2) + pow(j - pos_y, 2)) <= 10:
+                        cell.next_state = CellState.ALIVE if cell.state == CellState.DEAD else CellState.DEAD
+                        cell.time_not_changed = 0
+                        cell.update_state()
+    
+    def apply_freeze(self, pos_x: int, pos_y: int):
+        for i, row in enumerate(self.cells):
+            if math.sqrt(pow(i - pos_x, 2)) <= 10:
+                for j, cell in enumerate(row):
+                    if math.sqrt(pow(i - pos_x, 2) + pow(j - pos_y, 2)) <= 10:
+                        cell.freezed = True
+
+    def apply_unfreeze(self):
+        for i, row in enumerate(self.cells):
+            for j, cell in enumerate(row):
+                cell.freezed = False
+    
+    def apply_earthquake(self):
+        for row in self.cells:
+            for cell in row:
+                cell.next_state = CellState.ALIVE if cell.state == CellState.DEAD else CellState.DEAD
+                cell.time_not_changed = 0
                 cell.update_state()
 

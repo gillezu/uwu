@@ -8,7 +8,7 @@ key_press_bp = Blueprint("key_press", __name__)
 
 
 @socketio.on("keyPress")
-def receive_mouse_coords(data):
-    i, j, type = data.get("i"), data.get("j"), data.get("type")
-    grid.change_cell_state(i, j)
+def receive_spell_data(data):
+    key, i, j = data.get("key"), data.get("i"), data.get("j")
+    grid.apply_spell(key, i, j)
     socketio.emit("getGrid", grid.to_dict())
