@@ -13,6 +13,7 @@ import { socket } from "./utils/socketioSetup";
 import InitializeRandomButton from "./components/controllers/InitializeRandomButton";
 import GridCanvas from "./components/GridCanvas";
 import Navbar from "./components/Navbar";
+import "./styles/components/slider.css";
 
 function App() {
   const [data, setData] = useState({
@@ -55,13 +56,16 @@ function App() {
     fetchInitialGrid();
   }, []);
 
-  useEffect(() => {
-  }, [data]);
+  useEffect(() => {}, [data]);
 
   if (loading) {
-    return <h1>Loading <FontAwesomeIcon icon={faSpinner} /></h1>;
-  };
-  
+    return (
+      <h1>
+        Loading <FontAwesomeIcon icon={faSpinner} />
+      </h1>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center justify-start h-screen w-screen bg-black">
       <Navbar />
@@ -79,39 +83,40 @@ function App() {
             className="flex justify-between my-2"
             style={{ width: `${data.width * data.cell_size}px` }}
           >
-            <InitializeRandomButton socket={socket} resetGeneration={resetGeneration}/>
-            <StartPauseButton
-              socket={socket}
-              FPS={fps}
-            />
-            <ResetButton
+            <InitializeRandomButton
               socket={socket}
               resetGeneration={resetGeneration}
             />
+            <StartPauseButton socket={socket} FPS={fps} />
+            <ResetButton socket={socket} resetGeneration={resetGeneration} />
           </div>
           <div className="my-2">
             <GridCanvas
-              grid={data.cells || Array(data.height).fill(Array(data.width).fill(0))}
+              grid={
+                data.cells || Array(data.height).fill(Array(data.width).fill(0))
+              }
               cellSize={data.cell_size}
               width={data.width} // Übergebe die Breite des Canvas
               height={data.height} // Übergebe die Höhe des Canvas
               cellAges={
-                data.cell_age || Array(data.height).fill(Array(data.width).fill(0))
+                data.cell_age ||
+                Array(data.height).fill(Array(data.width).fill(0))
               }
               cellfreezed={data.freezed}
               onCellClick={async (i, j) => {
-                  socket.emit("mouseCoords", { i, j });
-                  resetGeneration();
+                socket.emit("mouseCoords", { i, j });
+                resetGeneration();
               }}
               onKeyPress={async (key, i, j) => {
                 socket.emit("keyPress", { key, i, j });
-            }}
+              }}
             />
           </div>
-          <div className="my-2 flex justify-between">
+          <div className="my-2 flex justify-between items-center">
             <h1 className="text-3xl text-white">Generation: {generation}</h1>
             <h1 className="text-3xl text-white">FPS: {fps}</h1>
             <input
+              className="custom-slider"
               type="range"
               min="1"
               max="50"
