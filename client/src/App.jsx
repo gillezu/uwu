@@ -14,7 +14,7 @@ import InitializeRandomButton from "./components/controllers/InitializeRandomBut
 import GridCanvas from "./components/GridCanvas";
 import Navbar from "./components/Navbar";
 import "./styles/components/slider.css";
-
+import LibraryModal from "./components/LibraryModal";
 function App() {
   const [data, setData] = useState({
     cell_age: [[]],
@@ -26,6 +26,7 @@ function App() {
 
   const [loading, setLoading] = useState(true);
   const [generation, setGeneration] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const resetGeneration = () => setGeneration(-1);
 
@@ -68,7 +69,12 @@ function App() {
 
   return (
     <div className="flex flex-col items-center justify-start h-screen w-screen bg-black">
-      <Navbar />
+      <Navbar
+        onOpenModal={() => {
+          setIsModalOpen(true);
+        }}
+      />
+      {isModalOpen && <LibraryModal onClose={() => setIsModalOpen(false)} />}
       <div className="flex flex-col items-center justify-start h-[80vh]">
         <div className="pulse my-20">
           <h1
