@@ -8,7 +8,7 @@ function LibraryModal({ onClose }) {
       <div className="bg-black w-[50vw] h-[70vh] rounded shadow-lg flex flex-col  border-2 border-white">
         <div className="flex justify-end">
           <button
-            className="bg-red-500 px-4 py-2 rounded text-white hover:bg-red-600"
+            className="px-4 py-2 rounded text-white border-white border-2 hover:bg-red-600"
             onClick={onClose}
           >
             <FontAwesomeIcon
