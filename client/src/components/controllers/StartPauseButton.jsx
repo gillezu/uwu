@@ -35,7 +35,10 @@ const StartPauseButton = ({ socket, FPS }) => {
   }, [intervalId]);
 
   return (
-    <button onClick={toggleProcess} className="w-[30%]">
+    <button
+      onClick={toggleProcess}
+      className="w-[30%] hover:bg-transparent hover:border-white border-2 transition-all duration-500"
+    >
       {isRunning ? (
         <FontAwesomeIcon icon={faStop} />
       ) : (

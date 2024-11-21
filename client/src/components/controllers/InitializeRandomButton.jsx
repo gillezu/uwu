@@ -9,7 +9,10 @@ function InitializeRandomButton({ socket, resetGeneration }) {
   };
 
   return (
-    <button onClick={initializeRandom} className="w-[30%]">
+    <button
+      onClick={initializeRandom}
+      className="w-[30%] hover:bg-transparent hover:border-white border-2 transition-all duration-500"
+    >
       <FontAwesomeIcon icon={faShuffle} />
     </button>
   );

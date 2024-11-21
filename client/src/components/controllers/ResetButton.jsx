@@ -7,9 +7,12 @@ function ResetButton({ socket, resetGeneration }) {
     socket.emit("resetGrid");
     resetGeneration();
   };
-  
+
   return (
-    <button onClick={resetGrid} className="w-[30%]">
+    <button
+      onClick={resetGrid}
+      className="w-[30%] hover:bg-transparent hover:border-white border-2 transition-all duration-500"
+    >
       <FontAwesomeIcon icon={faRefresh} />
     </button>
   );
