@@ -30,7 +30,6 @@ function App() {
   const [generation, setGeneration] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
-  console.log(isStatsOpen)
 
   const resetGeneration = () => setGeneration(-1);
 
@@ -74,6 +73,7 @@ function App() {
   return (
     <div className="flex flex-col items-center justify-start h-screen w-screen bg-gradient-to-b from-black to-gray-900">
       <Navbar
+        socket={socket}
         onOpenModal={() => {
           setIsModalOpen(true);
         }}
