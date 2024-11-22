@@ -65,14 +65,14 @@ function App() {
 
   if (loading) {
     return (
-      <h1>
-        Loading <FontAwesomeIcon icon={faSpinner} />
+      <h1 className="text-white text-3xl flex items-center justify-center h-screen">
+        Loading <FontAwesomeIcon icon={faSpinner} className="ml-2 animate-spin" />
       </h1>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-start h-screen w-screen bg-black">
+    <div className="flex flex-col items-center justify-start h-screen w-screen bg-gradient-to-b from-black to-gray-900">
       <Navbar
         onOpenModal={() => {
           setIsModalOpen(true);
@@ -83,8 +83,8 @@ function App() {
       />
       {isModalOpen && <LibraryModal onClose={() => setIsModalOpen(false)} />}
       {isStatsOpen && <Stats stats={data.stats}/>}
-      <div className="flex flex-col items-center justify-start h-[80vh]">
-        <div className="pulse my-20">
+      <div className="flex flex-col items-center justify-start h-[80vh] w-full">
+        <div className="pulse my-16">
           <h1
             className="text-5xl text-transparent bg-gradient-to-r from-blue-500 
             via-purple-500 to-red-500 bg-clip-text move-gradient-text game-header"
@@ -92,9 +92,9 @@ function App() {
             Game of Life
           </h1>
         </div>
-        <div className="my-20">
+        <div className="w-full flex flex-col items-center">
           <div
-            className="flex justify-between my-2"
+            className="flex justify-between mb-6"
             style={{ width: `${data.width * data.cell_size}px` }}
           >
             <InitializeRandomButton
@@ -126,9 +126,9 @@ function App() {
               }}
             />
           </div>
-          <div className="my-2 flex justify-between items-center">
-            <h1 className="text-3xl text-white">Generation: {generation}</h1>
-            <h1 className="text-3xl text-white">FPS: {fps}</h1>
+          <div className="my-4 flex justify-between items-center w-full" style={{ width: `${data.width * data.cell_size}px` }}>
+            <h1 className="text-2xl text-white">Generation: {generation}</h1>
+            <h1 className="text-2xl text-white">FPS: {fps}</h1>
             <input
               className="custom-slider"
               type="range"

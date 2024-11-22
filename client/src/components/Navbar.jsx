@@ -10,20 +10,20 @@ import {
 
 const Navbar = ({ onOpenModal, onOpenStats }) => {
   return (
-    <header className="w-full py-5 sm:px-10 px-5 flex justify-between items-center">
-      <nav className="flex w-full screen-max-width">
+    <header className="w-full py-4 px-6 shadow-lg">
+      <nav className="flex items-center justify-between">
         <FontAwesomeIcon
           icon={faSquarePollVertical}
-          size="xl hover:text-white transition-all"
+          size="xl cursor-pointer hover:text-white transition-all"
           onClick={() => {
               onOpenStats();
           }}
         />
-        <div className="flex flex-1 justify-center max-sm:hidden">
+        <div className="hidden sm:flex flex-1 justify-center">
           {navLists.map((nav) => (
             <div
               key={nav}
-              className="px-5 text-sm cursor-pointer text-gray underline_custom hover:text-white transition-all"
+              className="px-4 text-sm cursor-pointer text-gray underline_custom hover:text-white transition-all"
               onClick={() => {
                 if (nav === "Library") {
                   onOpenModal();
@@ -35,14 +35,14 @@ const Navbar = ({ onOpenModal, onOpenStats }) => {
           ))}
         </div>
 
-        <div className="flex items-baseline gap-7 max-sm:justify-end max-sm:flex-1">
+        <div className="flex items-baseline space-x-4 max-sm:justify-end max-sm:flex-1">
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
-            size="xl hover:text-white transition-all"
+            size="xl cursor-pointer hover:text-white transition-all"
           />
           <FontAwesomeIcon
             icon={faBars}
-            size="xl hover:text-white transition-all"
+            size="xl cursor-pointer hover:text-white transition-all"
           />
         </div>
       </nav>
