@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +15,8 @@ import GridCanvas from "./components/GridCanvas";
 import Navbar from "./components/Navbar";
 import "./styles/components/slider.css";
 import LibraryModal from "./components/LibraryModal";
+import Stats from "./components/Stats";
+
 function App() {
   const [data, setData] = useState({
     cell_age: [[]],
@@ -27,6 +29,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [generation, setGeneration] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStatsOpen, setIsStatsOpen] = useState(false);
+  console.log(isStatsOpen)
 
   const resetGeneration = () => setGeneration(-1);
 
@@ -73,8 +77,12 @@ function App() {
         onOpenModal={() => {
           setIsModalOpen(true);
         }}
+        onOpenStats={() => {
+          setIsStatsOpen(!isStatsOpen);
+        }}
       />
       {isModalOpen && <LibraryModal onClose={() => setIsModalOpen(false)} />}
+      {isStatsOpen && <Stats stats={data.stats}/>}
       <div className="flex flex-col items-center justify-start h-[80vh]">
         <div className="pulse my-20">
           <h1

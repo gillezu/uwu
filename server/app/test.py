@@ -47,6 +47,7 @@ class Grid:
         self.stats = [0, 0, 0, 0]  # Alive, Dead, New Alive, New Dead
 
     def to_dict(self):
+        self.get_stats()
         return {
             "width": self.width,
             "height": self.height,
@@ -138,4 +139,17 @@ class Grid:
                 cell.next_state = CellState.ALIVE if cell.state == CellState.DEAD else CellState.DEAD
                 cell.time_not_changed = 0
                 cell.update_state()
+    
+    def get_stats(self):
+        self.stats = [0, 0, 0, 0]
+        for row in self.cells:
+            for cell in row:
+                if cell.state == CellState.ALIVE:
+                    self.stats[0] += 1
+                    if cell.time_not_changed == 0:
+                        self.stats[2] += 1
+                else:
+                    self.stats[1] += 1
+                    if cell.time_not_changed == 0:
+                        self.stats[3] += 1
 
