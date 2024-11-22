@@ -9,16 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = ({ socket, onOpenModal, onOpenStats }) => {
-  const [patterns, setPatterns] = useState({});
-
-  useEffect(() => {
-    socket.on("getPatterns", (response) => {
-      setPatterns(response)
-    });
-  }, []);
 
   const loadPatterns = () => {
-    console.log("hey")
     socket.emit("sendPatterns");
   }
   

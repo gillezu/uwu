@@ -58,6 +58,68 @@ class Grid:
             "freezed": [[cell.freezed for cell in row] for row in self.cells]
         }
 
+    def apply_rle_pattern(self, rle: str):
+        """Wendet ein RLE-Pattern auf das Grid an."""
+        rle_grid = Grid.parse_rle(rle, width=None, height=None)
+
+        # Größe des RLE-Musters bestimmen
+        pattern_width = len(rle_grid[0])
+        pattern_height = len(rle_grid)
+        print(pattern_width, pattern_height)
+
+        # Berechnung der Offsets für die Zentrierung
+        offset_x = (self.width - pattern_width) // 2
+        offset_y = (self.height - pattern_height) // 2
+        
+        # Zustände auf das Grid anwenden
+        for x, row in enumerate(rle_grid):
+            for y, value in enumerate(row):
+                if 0 <= x + offset_x < self.width and 0 <= y + offset_y < self.height:
+                    self.cells[x + offset_x][y + offset_y].state = (
+                        CellState.ALIVE if value == 1 else CellState.DEAD
+                    )
+                    self.cells[x + offset_x][y + offset_y].time_not_changed = 0
+
+    @staticmethod
+    def parse_rle(rle, width=None, height=None):
+        """Parst ein RLE-Pattern in ein 2D-Grid."""
+        lines = rle.splitlines()
+        header = [line for line in lines if line.startswith('#')]
+        pattern = [line for line in lines if not line.startswith('#')]
+        pattern = ''.join(pattern).replace('\n', '')
+
+        # RLE dekodieren
+        rows = []
+        current_row = []
+        count = ''
+        for char in pattern:
+            if char.isdigit():
+                count += char  # Baue Ziffern zusammen
+            elif char in 'bo':
+                current_row.extend([1 if char == 'o' else 0] * (int(count) if count else 1))
+                count = ''
+            elif char == '$':
+                rows.append(current_row)
+                current_row = []
+        rows.append(current_row)  # Letzte Zeile hinzufügen
+
+        # Normalisieren: Sicherstellen, dass alle Zeilen gleich lang sind
+        max_length = max(len(row) for row in rows)
+        grid = [row + [0] * (max_length - len(row)) for row in rows]
+
+        # Optional: Größe anpassen
+        if width or height:
+            target_width = width if width else len(grid[0])
+            target_height = height if height else len(grid)
+            padded_grid = [[0] * target_width for _ in range(target_height)]
+
+            for i in range(min(target_height, len(grid))):
+                for j in range(min(target_width, len(grid[i]))):
+                    padded_grid[i][j] = grid[i][j]
+            grid = padded_grid
+
+        return grid
+
     def initialize_random(self):
         """Randomly initialize the grid with alive and dead cells."""
         for row in self.cells:

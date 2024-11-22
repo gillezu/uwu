@@ -30,6 +30,7 @@ function App() {
   const [generation, setGeneration] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
+  const [patterns, setPatterns] = useState({});
 
   const resetGeneration = () => setGeneration(-1);
 
@@ -39,6 +40,12 @@ function App() {
     const newFPS = event.target.value;
     setFPS(newFPS);
   };
+
+  useEffect(() => {
+    socket.on("getPatterns", (response) => {
+      setPatterns(response)
+    });
+  }, []);
 
   useEffect(() => {
     socket.on("getGrid", (response) => {
@@ -81,7 +88,7 @@ function App() {
           setIsStatsOpen(!isStatsOpen);
         }}
       />
-      {isModalOpen && <LibraryModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && <LibraryModal socket={socket} patterns={patterns} resetGeneration={resetGeneration} onClose={() => setIsModalOpen(false)} />}
       {isStatsOpen && <Stats stats={data.stats}/>}
       <div className="flex flex-col items-center justify-start h-[80vh] w-full">
         <div className="pulse my-16">
