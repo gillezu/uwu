@@ -1,3 +1,3 @@
-from test import *
+from main import *
 
-grid = Grid(150, 150, 6)
+grid = Grid(100, 100, 8)

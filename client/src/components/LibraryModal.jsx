@@ -9,7 +9,6 @@ import {
 function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
   const [isOpen, setIsOpen] = useState(false);
   const onPatternClick = (code) => {
-      socket.emit("resetGrid");
       socket.emit("applyPattern", { code });
       resetGeneration();
       onClose();

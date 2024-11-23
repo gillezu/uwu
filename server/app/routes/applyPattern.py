@@ -11,6 +11,7 @@ apply_patterns_bp = Blueprint("applyPattern", __name__)
 def apply_patterns(data):
     code = data.get("code")
     print(code)
+    grid.reset_field()
     grid.apply_rle_pattern(code)
     print("pattern applied")
     socketio.emit("getGrid", grid.to_dict())
