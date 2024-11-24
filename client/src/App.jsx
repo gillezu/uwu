@@ -16,6 +16,7 @@ import Navbar from "./components/Navbar";
 import "./styles/components/slider.css";
 import LibraryModal from "./components/LibraryModal";
 import Stats from "./components/Stats";
+import BlobManager from "./components/blob/BlobManager";
 
 function App() {
   const [data, setData] = useState({
@@ -97,6 +98,7 @@ function App() {
 
   return (
     <div className="relative flex flex-col items-center justify-start h-screen w-screen bg-gradient-to-b from-black to-gray-900">
+      <BlobManager />
       <div
         className={` z-50 absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-blue-500 
           via-purple-500 to-red-500  transition-transform duration-1000 ${
