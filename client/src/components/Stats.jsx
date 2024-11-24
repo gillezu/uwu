@@ -3,7 +3,7 @@ import React from 'react'
 const Stats = ({ stats }) => {
     return (
       <div
-        className="absolute top-16 left-4 bg-white shadow-lg rounded-lg p-4 w-64 border border-gray-200"
+        className="absolute top-16 right-4 bg-white shadow-lg rounded-lg p-4 w-64 border border-gray-200"
       >
         <h1 className="text-lg font-semibold text-gray-800">Statistics</h1>
         <hr className="my-2 border-gray-300" />

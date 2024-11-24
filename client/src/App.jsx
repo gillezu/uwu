@@ -94,9 +94,9 @@ function App() {
         <div className="pulse my-16">
           <h1
             className="text-5xl text-transparent bg-gradient-to-r from-blue-500 
-            via-purple-500 to-red-500 bg-clip-text move-gradient-text game-header"
+            via-purple-500 to-red-500 bg-clip-text move-gradient-text"
           >
-            Game of Life
+            Sandbox
           </h1>
         </div>
         <div className="w-full flex flex-col items-center">
