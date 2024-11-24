@@ -34,7 +34,7 @@ function App() {
 
   const resetGeneration = () => setGeneration(-1);
 
-  const [fps, setFPS] = useState(20);
+  const [fps, setFPS] = useState(17);
 
   const [curtainOpen, setCurtainOpen] = useState(false);
   const [headerZoom, setHeaderZoom] = useState(false);
@@ -98,14 +98,16 @@ function App() {
   return (
     <div className="relative flex flex-col items-center justify-start h-screen w-screen bg-gradient-to-b from-black to-gray-900">
       <div
-        className={` z-50 absolute top-0 left-0 h-full w-1/2 bg-black transition-transform duration-1000 ${
-          curtainOpen ? "-translate-x-full" : "translate-x-0"
-        }`}
+        className={` z-50 absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-blue-500 
+          via-purple-500 to-red-500  transition-transform duration-1000 ${
+            curtainOpen ? "-translate-x-full" : "translate-x-0"
+          }`}
       ></div>
       <div
-        className={`z-50 absolute top-0 right-0 h-full w-1/2 bg-black transition-transform duration-1000 ${
-          curtainOpen ? "translate-x-full" : "translate-x-0"
-        }`}
+        className={`z-50 absolute top-0 right-0 h-full w-1/2 bg-gradient-to-r from-red-500 
+          via-purple-500 to-blue-500  transition-transform duration-1000 ${
+            curtainOpen ? "translate-x-full" : "translate-x-0"
+          }`}
       ></div>
       <Navbar
         socket={socket}
@@ -127,7 +129,7 @@ function App() {
       {isStatsOpen && <Stats stats={data.stats} />}
       <div className="flex flex-col items-center justify-start h-[80vh] w-full">
         <div
-          className={`flex items-center justify-center h-screen transition-transform duration-1000 ease-in-out ${
+          className={`flex items-center justify-center h-screen transition-transform duration-[1500ms] ease-in-out ${
             headerZoom
               ? "scale-100 translate-y-0 opacity-100"
               : "scale-150 opacity-0"
