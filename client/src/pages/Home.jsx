@@ -4,8 +4,7 @@ import Navbar from "../components/Navbar";
 function Home() {
   return (
     <>
-      <Navbar />
-      <div>Home</div>{" "}
+      <div>Home</div>
     </>
   );
 }

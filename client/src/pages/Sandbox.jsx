@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import ResetButton from "../components/controllers/ResetButton";
 import StartPauseButton from "../components/controllers/StartPauseButton";
-import useFPS from "../hooks/useFPS";
 import "../styles/animations/pulse.css";
 import "../styles/animations/moveGradient.css";
 import "../styles/components/gameHeader.css";
@@ -12,10 +11,7 @@ import axios from "axios";
 import { socket } from "../utils/socketioSetup";
 import InitializeRandomButton from "../components/controllers/InitializeRandomButton";
 import GridCanvas from "../components/GridCanvas";
-import Navbar from "../components/Navbar";
 import "../styles/components/slider.css";
-import LibraryModal from "../components/LibraryModal";
-import Stats from "../components/Stats";
 
 function Sandbox() {
   const [data, setData] = useState({
@@ -28,24 +24,15 @@ function Sandbox() {
 
   const [loading, setLoading] = useState(true);
   const [generation, setGeneration] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isStatsOpen, setIsStatsOpen] = useState(false);
+
   const [patterns, setPatterns] = useState({});
 
   const resetGeneration = () => setGeneration(-1);
 
   const [fps, setFPS] = useState(17);
 
-  const [curtainOpen, setCurtainOpen] = useState(false);
   const [headerZoom, setHeaderZoom] = useState(false);
 
-  useEffect(() => {
-    // Trigger the curtains to open after a short delay
-    const timeout = setTimeout(() => {
-      setCurtainOpen(true);
-    }, 500);
-    return () => clearTimeout(timeout);
-  }, []);
   useEffect(() => {
     const timeout = setTimeout(() => {
       setHeaderZoom(true);
@@ -96,36 +83,6 @@ function Sandbox() {
   }
   return (
     <div className="relative flex flex-col items-center justify-start h-screen w-screen bg-gradient-to-b from-black to-gray-900">
-      <div
-        className={` z-50 absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-blue-500 
-          via-purple-500 to-red-500  transition-transform duration-1000 ${
-            curtainOpen ? "-translate-x-full" : "translate-x-0"
-          }`}
-      ></div>
-      <div
-        className={`z-50 absolute top-0 right-0 h-full w-1/2 bg-gradient-to-r from-red-500 
-          via-purple-500 to-blue-500  transition-transform duration-1000 ${
-            curtainOpen ? "translate-x-full" : "translate-x-0"
-          }`}
-      ></div>
-      <Navbar
-        socket={socket}
-        onOpenModal={() => {
-          setIsModalOpen(true);
-        }}
-        onOpenStats={() => {
-          setIsStatsOpen(!isStatsOpen);
-        }}
-      />
-      {isModalOpen && (
-        <LibraryModal
-          socket={socket}
-          patterns={patterns}
-          resetGeneration={resetGeneration}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
-      {isStatsOpen && <Stats stats={data.stats} />}
       <div className="flex flex-col items-center justify-start h-[80vh] w-full">
         <div
           className={`flex items-center justify-center h-screen transition-transform duration-[1500ms] ease-in-out ${
