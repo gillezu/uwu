@@ -16,7 +16,6 @@ import Navbar from "./components/Navbar";
 import "./styles/components/slider.css";
 import LibraryModal from "./components/LibraryModal";
 import Stats from "./components/Stats";
-import MorphingBlob from "./components/blob/MorphingBlob";
 
 function App() {
   const [data, setData] = useState({
