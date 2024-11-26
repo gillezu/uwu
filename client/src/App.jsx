@@ -140,7 +140,12 @@ function App() {
           onClose={() => setIsModalOpen(false)}
         />
       )}
-      {isStatsOpen && <Stats stats={data.stats} />}
+      {isStatsOpen &&
+        (location.pathname === "/sandbox" ? (
+          <Stats stats={data.stats} />
+        ) : (
+          <Stats />
+        ))}
       {renderContent && (
         <Routes>
           <Route
