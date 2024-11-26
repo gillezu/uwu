@@ -63,7 +63,7 @@ function Levels() {
       </div>
 
       {/* Level Cards */}
-      <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 px-8 z-20 pb-32">
+      <div className="relative pt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 px-8 z-20 pb-32 ">
         {levels.map((level, index) => (
           <motion.div
             key={level.id}
