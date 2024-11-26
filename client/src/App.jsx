@@ -24,7 +24,7 @@ function App() {
   const [curtainOpen, setCurtainOpen] = useState(false);
   const [renderContent, setRenderContent] = useState(false);
   const [easeIn, setEaseIn] = useState(false);
-  
+
   const [data, setData] = useState({
     cell_age: [[]],
     cell_size: 5,
