@@ -128,6 +128,33 @@ class Grid:
 
         return grid
 
+    def to_rle(self):
+        rle = []
+        for row in self.cells:
+            count = 1
+            current_state = row[0].state
+            row_rle = ""
+
+            for cell in row[1:]:
+                if cell.state == current_state:
+                    count += 1
+                else:
+                    if current_state == ALIVE:
+                        row_rle += f"{count if count > 1 else ''}o"
+                    else:
+                        row_rle += f"{count if count > 1 else ''}b"
+                    count = 1
+                    current_state = cell.state
+
+            # Letzter Zustand der Zeile
+            if current_state == ALIVE:
+                row_rle += f"{count if count > 1 else ''}o"
+            else:
+                row_rle += f"{count if count > 1 else ''}b"
+
+            rle.append(row_rle)
+        return "$".join(rle) + "!"
+
     def initialize_random(self):
         """Randomly initialize the grid with alive and dead cells."""
         for row in self.cells:
