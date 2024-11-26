@@ -106,7 +106,7 @@ function App() {
     <div
       className="relative flex flex-col items-center justify-start h-screen w-screen 
       bg-cover bg-center bg-[url('./assets/polygonScatterBG.svg')]"
-      style={{ animation: "rotate-background 10s infinite linear" }}
+      /*style={{ animation: "rotate-background 10s infinite linear" }}***/ //
     >
       <div
         className={` z-50 absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-blue-500 
