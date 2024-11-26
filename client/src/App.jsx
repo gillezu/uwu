@@ -6,6 +6,14 @@ import Levels from "./pages/Levels";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Stats from "./components/Stats";
+import Level1 from "./pages/leveldir/level1";
+import Level2 from "./pages/leveldir/level2";
+import Level3 from "./pages/leveldir/level3";
+import Level4 from "./pages/leveldir/level4";
+import Level5 from "./pages/leveldir/level5";
+import Level6 from "./pages/leveldir/level6";
+import Level7 from "./pages/leveldir/level7";
+import Level8 from "./pages/leveldir/level8";
 import LibraryModal from "./components/LibraryModal";
 import { socket } from "./utils/socketioSetup";
 import "./styles/animations/rotate.css";
@@ -16,6 +24,65 @@ function App() {
   const [curtainOpen, setCurtainOpen] = useState(false);
   const [renderContent, setRenderContent] = useState(false);
   const [easeIn, setEaseIn] = useState(false);
+  
+  const [data, setData] = useState({
+    cell_age: [[]],
+    cell_size: 5,
+    cells: [[]],
+    height: 10,
+    width: 10,
+  });
+
+  const [loading, setLoading] = useState(true);
+  const [generation, setGeneration] = useState(0);
+
+  const [patterns, setPatterns] = useState({});
+
+  const resetGeneration = () => setGeneration(-1);
+
+  const [fps, setFPS] = useState(17);
+
+  const [headerZoom, setHeaderZoom] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setHeaderZoom(true);
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const handleFPSChange = (event) => {
+    const newFPS = event.target.value;
+    setFPS(newFPS);
+  };
+
+  useEffect(() => {
+    socket.on("getPatterns", (response) => {
+      setPatterns(response);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on("getGrid", (response) => {
+      setData(response);
+      setGeneration((prevCount) => prevCount + 0.5); // Keine Ahnung warum 0.5, Funktion wird anscheinend 2x ausgeführt
+    });
+  }, []);
+
+  useEffect(() => {
+    const fetchInitialGrid = async () => {
+      try {
+        const response = await axios.get("/initialize_grid");
+        setData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchInitialGrid();
+  }, []);
+
+  useEffect(() => {}, [data]);
 
   const location = useLocation();
 
@@ -81,6 +148,14 @@ function App() {
           />
           <Route path="/sandbox" element={<Sandbox />} />
           <Route path="/levels" element={<Levels />} />
+          <Route path="/leveldir/level1" element={<Level1 />} />
+          <Route path="/leveldir/level2" element={<Level2 />} />
+          <Route path="/leveldir/level3" element={<Level3 />} />
+          <Route path="/leveldir/level4" element={<Level4 />} />
+          <Route path="/leveldir/level5" element={<Level5 />} />
+          <Route path="/leveldir/level6" element={<Level6 />} />
+          <Route path="/leveldir/level7" element={<Level7 />} />
+          <Route path="/leveldir/level8" element={<Level8 />} />
         </Routes>
       )}
     </div>

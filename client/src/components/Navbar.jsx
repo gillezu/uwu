@@ -41,8 +41,8 @@ const Navbar = ({ socket, onOpenModal, onOpenStats }) => {
     <header className="w-full py-4 px-6 shadow-lg">
       <nav className="flex items-center justify-between">
         <h1
-          className="pulse text-3xl text-transparent bg-gradient-to-r from-blue-500 
-            via-purple-500 to-red-500 bg-clip-text move-gradient-text game-header font-bold cursor-pointer"
+          className="text-3xl font-extrabold text-transparent bg-gradient-to-r from-blue-500 via-purple-500 
+          to-red-500 bg-clip-text cursor-pointer"
           onClick={toggleDropdown}
         >
           Game of Life
