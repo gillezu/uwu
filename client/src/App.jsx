@@ -154,14 +154,14 @@ function App() {
           />
           <Route path="/sandbox" element={<Sandbox />} />
           <Route path="/levels" element={<Levels />} />
-          <Route path="/leveldir/level1" element={<Level1 />} />
-          <Route path="/leveldir/level2" element={<Level2 />} />
-          <Route path="/leveldir/level3" element={<Level3 />} />
-          <Route path="/leveldir/level4" element={<Level4 />} />
-          <Route path="/leveldir/level5" element={<Level5 />} />
-          <Route path="/leveldir/level6" element={<Level6 />} />
-          <Route path="/leveldir/level7" element={<Level7 />} />
-          <Route path="/leveldir/level8" element={<Level8 />} />
+          <Route path="/levels/level1" element={<Level1 />} />
+          <Route path="/levels/level2" element={<Level2 />} />
+          <Route path="/levels/level3" element={<Level3 />} />
+          <Route path="/levels/level4" element={<Level4 />} />
+          <Route path="/levels/level5" element={<Level5 />} />
+          <Route path="/levels/level6" element={<Level6 />} />
+          <Route path="/levels/level7" element={<Level7 />} />
+          <Route path="/levels/level8" element={<Level8 />} />
         </Routes>
       )}
     </div>

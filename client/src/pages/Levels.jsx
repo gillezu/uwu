@@ -3,21 +3,64 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const levels = [
-  { id: 1, name: "Level 1", route: "/leveldir/level1", image: "/public/pictures/level1.jpeg" },
-  { id: 2, name: "Level 2", route: "/leveldir/level2", image: "/public/pictures/level2.jpeg" },
-  { id: 3, name: "Level 3", route: "/leveldir/level3", image: "/public/pictures/level3.jpeg" },
-  { id: 4, name: "Level 4", route: "/leveldir/level4", image: "/public/pictures/level4.jpeg" },
-  { id: 5, name: "Level 5", route: "/leveldir/level5", image: "/public/pictures/level5.jpeg" },
-  { id: 6, name: "Level 6", route: "/leveldir/level6", image: "/public/pictures/level6.jpeg" },
-  { id: 7, name: "Level 7", route: "/leveldir/level7", image: "/public/pictures/level7.jpeg" },
-  { id: 8, name: "Level 8", route: "/leveldir/level8", image: "/public/pictures/level8.jpeg" },
+  {
+    id: 1,
+    name: "Level 1",
+    route: "/levels/level1",
+    image: "/pictures/level1.jpeg",
+  },
+  {
+    id: 2,
+    name: "Level 2",
+    route: "/levels/level2",
+    image: "/pictures/level2.jpeg",
+  },
+  {
+    id: 3,
+    name: "Level 3",
+    route: "/levels/level3",
+    image: "/pictures/level3.jpeg",
+  },
+  {
+    id: 4,
+    name: "Level 4",
+    route: "/levels/level4",
+    image: "/pictures/level4.jpeg",
+  },
+  {
+    id: 5,
+    name: "Level 5",
+    route: "/levels/level5",
+    image: "/pictures/level5.jpeg",
+  },
+  {
+    id: 6,
+    name: "Level 6",
+    route: "/levels/level6",
+    image: "/pictures/level6.jpeg",
+  },
+  {
+    id: 7,
+    name: "Level 7",
+    route: "/levels/level7",
+    image: "/pictures/level7.jpeg",
+  },
+  {
+    id: 8,
+    name: "Level 8",
+    route: "/levels/level8",
+    image: "/pictures/level8.jpeg",
+  },
 ];
 
 function Levels() {
   const navigate = useNavigate();
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const [pulsingPosition, setPulsingPosition] = useState({ top: "50%", left: "50%" });
+  const [pulsingPosition, setPulsingPosition] = useState({
+    top: "50%",
+    left: "50%",
+  });
 
   // Update the pulsing glow position every few seconds
   useEffect(() => {
@@ -71,7 +114,11 @@ function Levels() {
             onClick={() => navigate(level.route)}
             whileHover={{ scale: 1.05 }}
             style={{
-              y: useTransform(mouseY, [0, window.innerHeight], [index % 2 === 0 ? -50 : 50, 0]),
+              y: useTransform(
+                mouseY,
+                [0, window.innerHeight],
+                [index % 2 === 0 ? -50 : 50, 0],
+              ),
             }}
           >
             {/* Background Image */}
