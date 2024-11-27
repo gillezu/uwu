@@ -11,7 +11,7 @@ function ResetButton({ socket, resetGeneration }) {
   return (
     <button
       onClick={resetGrid}
-      className="w-[30%] hover:bg-transparent hover:border-white border-2 transition-all duration-500"
+      className="w-[22.5%] hover:bg-transparent hover:border-white border-2 transition-all duration-500"
     >
       <FontAwesomeIcon icon={faRefresh} />
     </button>

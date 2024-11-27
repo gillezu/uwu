@@ -15,12 +15,15 @@ import Level6 from "./pages/leveldir/level6";
 import Level7 from "./pages/leveldir/level7";
 import Level8 from "./pages/leveldir/level8";
 import LibraryModal from "./components/LibraryModal";
+import SaveModal from "./components/SaveModal";
 import { socket } from "./utils/socketioSetup";
 import "./styles/animations/rotate.css";
 import axios from "axios";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [curtainOpen, setCurtainOpen] = useState(false);
   const [renderContent, setRenderContent] = useState(false);
@@ -152,7 +155,21 @@ function App() {
             path="/"
             element={<Home easeIn={easeIn} setEaseIn={setEaseIn} />}
           />
-          <Route path="/sandbox" element={<Sandbox />} />
+          <Route
+            path="/sandbox"
+            element={
+              <>
+                <Sandbox
+                  onOpenSaveModal={() => {
+                    setIsSaveModalOpen(true);
+                  }}
+                />
+                {isSaveModalOpen && (
+                  <SaveModal onClose={() => setIsSaveModalOpen(false)} />
+                )}
+              </>
+            }
+          />
           <Route path="/levels" element={<Levels />} />
           <Route path="/levels/level1" element={<Level1 />} />
           <Route path="/levels/level2" element={<Level2 />} />

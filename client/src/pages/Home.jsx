@@ -26,7 +26,8 @@ function Home({ easeIn, setEaseIn }) {
           Welcome to the Game of Life
         </h1>
         <p className="text-xl text-gray-300 mt-4 text-center">
-          Explore the patterns of life, create your own, or take on challenging levels!
+          Explore the patterns of life, create your own, or take on challenging
+          levels!
         </p>
         <div className="flex justify-evenly w-full mt-8">
           <button

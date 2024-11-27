@@ -10,10 +10,11 @@ import "../styles/components/gameHeader.css";
 import axios from "axios";
 import { socket } from "../utils/socketioSetup";
 import InitializeRandomButton from "../components/controllers/InitializeRandomButton";
+import SaveToLibraryButton from "../components/controllers/SaveToLibraryButton";
 import GridCanvas from "../components/GridCanvas";
 import "../styles/components/slider.css";
 
-function Sandbox() {
+function Sandbox({ onOpenSaveModal }) {
   const [data, setData] = useState({
     cell_age: [[]],
     cell_size: 5,
@@ -108,6 +109,7 @@ function Sandbox() {
           />
           <StartPauseButton socket={socket} FPS={fps} />
           <ResetButton socket={socket} resetGeneration={resetGeneration} />
+          <SaveToLibraryButton onOpenSaveModal={onOpenSaveModal} />
         </div>
         <div className="my-2">
           <GridCanvas
