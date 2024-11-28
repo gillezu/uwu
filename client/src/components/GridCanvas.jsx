@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
+import SaveModal from "./SaveModal";
 
-const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClick, onKeyPress }) => {
+const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClick, onKeyPress, anyModalOpened }) => {
   const [coords, setCoords] = useState({ x: 5, y: 5 });
   const coordsRef = useRef(coords)
   const canvasRef = useRef(null);
@@ -106,33 +107,33 @@ const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClic
     const handleMouseMove = (event) => {
       setCoords({ x: event.clientX, y: event.clientY });
     };
-
     const handleKeyDown = (event) => {
-      const canvas = canvasRef.current;
-      const rect = canvas.getBoundingClientRect();
-
-      // Koordinaten relativ zum Canvas berechnen
-      const x = coordsRef.current.x - rect.left;
-      const y = coordsRef.current.y - rect.top;
-      const i = Math.floor(y / cellSize);
-      const j = Math.floor(x / cellSize);
-
-      switch (event.key) {
-        case "l":
-          onKeyPress(0, i, j);
-          break;
-        case "e":
-          onKeyPress(1, i, j);
-          break;
-        case "f":
-          onKeyPress(2, i, j);
-          break;
-        case "u":
-          onKeyPress(3, i, j);
-          break;
-        default:
-          console.log(`Andere Taste: ${event.key}`);
-      }
+      console.log(anyModalOpened)
+      if (!anyModalOpened) {
+        const canvas = canvasRef.current;
+        const rect = canvas.getBoundingClientRect();
+        // Koordinaten relativ zum Canvas berechnen
+        const x = coordsRef.current.x - rect.left;
+        const y = coordsRef.current.y - rect.top;
+        const i = Math.floor(y / cellSize);
+        const j = Math.floor(x / cellSize);
+        switch (event.key) {
+          case "l":
+            onKeyPress(0, i, j);
+            break;
+          case "e":
+            onKeyPress(1, i, j);
+            break;
+          case "f":
+            onKeyPress(2, i, j);
+            break;
+          case "u":
+            onKeyPress(3, i, j);
+            break;
+          default:
+            console.log(`Andere Taste: ${event.key}`);
+        };
+      };
     };
 
     // Event-Listener hinzufügen

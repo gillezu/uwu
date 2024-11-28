@@ -6,6 +6,7 @@ import Levels from "./pages/Levels";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Stats from "./components/Stats";
+import SpellInfo from "./components/SpellInfoModal";
 import Level1 from "./pages/leveldir/level1";
 import Level2 from "./pages/leveldir/level2";
 import Level3 from "./pages/leveldir/level3";
@@ -23,8 +24,9 @@ import axios from "axios";
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
-
+  const [anyModalOpened, setAnyModalOpened] = useState(false);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
+  const [isSpellsOpen, setIsSpellsOpen] = useState(false);
   const [curtainOpen, setCurtainOpen] = useState(false);
   const [renderContent, setRenderContent] = useState(false);
   const [easeIn, setEaseIn] = useState(false);
@@ -47,6 +49,10 @@ function App() {
   const [fps, setFPS] = useState(17);
 
   const [headerZoom, setHeaderZoom] = useState(false);
+
+  useEffect(() => {
+    setAnyModalOpened(isModalOpen || isSaveModalOpen);
+  }, [isModalOpen, isSaveModalOpen]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -132,6 +138,11 @@ function App() {
           }}
           onOpenStats={() => {
             setIsStatsOpen(!isStatsOpen);
+            setIsSpellsOpen(false);
+          }}
+          onOpenSpells={() => {
+            setIsStatsOpen(false);
+            setIsSpellsOpen(!isSpellsOpen);
           }}
         />
       )}
@@ -149,6 +160,12 @@ function App() {
         ) : (
           <Stats />
         ))}
+      {isSpellsOpen &&
+        (location.pathname === "/sandbox" ? (
+          <SpellInfo show={true} />
+        ) : (
+          <SpellInfo show={false} />
+        ))}
       {renderContent && (
         <Routes>
           <Route
@@ -160,12 +177,13 @@ function App() {
             element={
               <>
                 <Sandbox
+                  anyModalOpened={anyModalOpened}
                   onOpenSaveModal={() => {
                     setIsSaveModalOpen(true);
                   }}
                 />
                 {isSaveModalOpen && (
-                  <SaveModal onClose={() => setIsSaveModalOpen(false)} />
+                  <SaveModal socket={socket} onClose={() => setIsSaveModalOpen(false)} />
                 )}
               </>
             }

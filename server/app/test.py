@@ -139,7 +139,7 @@ class Grid:
                 if cell.state == current_state:
                     count += 1
                 else:
-                    if current_state == ALIVE:
+                    if current_state == CellState.ALIVE:
                         row_rle += f"{count if count > 1 else ''}o"
                     else:
                         row_rle += f"{count if count > 1 else ''}b"
@@ -147,7 +147,7 @@ class Grid:
                     current_state = cell.state
 
             # Letzter Zustand der Zeile
-            if current_state == ALIVE:
+            if current_state == CellState.ALIVE:
                 row_rle += f"{count if count > 1 else ''}o"
             else:
                 row_rle += f"{count if count > 1 else ''}b"

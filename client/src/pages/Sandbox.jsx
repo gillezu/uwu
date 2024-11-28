@@ -14,7 +14,7 @@ import SaveToLibraryButton from "../components/controllers/SaveToLibraryButton";
 import GridCanvas from "../components/GridCanvas";
 import "../styles/components/slider.css";
 
-function Sandbox({ onOpenSaveModal }) {
+function Sandbox({ onOpenSaveModal, anyModalOpened }) {
   const [data, setData] = useState({
     cell_age: [[]],
     cell_size: 5,
@@ -25,8 +25,6 @@ function Sandbox({ onOpenSaveModal }) {
 
   const [loading, setLoading] = useState(true);
   const [generation, setGeneration] = useState(0);
-
-  const [patterns, setPatterns] = useState({});
 
   const resetGeneration = () => setGeneration(-1);
 
@@ -45,12 +43,6 @@ function Sandbox({ onOpenSaveModal }) {
     const newFPS = event.target.value;
     setFPS(newFPS);
   };
-
-  useEffect(() => {
-    socket.on("getPatterns", (response) => {
-      setPatterns(response);
-    });
-  }, []);
 
   useEffect(() => {
     socket.on("getGrid", (response) => {
@@ -113,6 +105,7 @@ function Sandbox({ onOpenSaveModal }) {
         </div>
         <div className="my-2">
           <GridCanvas
+            anyModalOpened={anyModalOpened}
             grid={
               data.cells || Array(data.height).fill(Array(data.width).fill(0))
             }

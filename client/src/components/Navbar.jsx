@@ -7,10 +7,11 @@ import {
   faSquarePollVertical,
   faMagnifyingGlass,
   faBars,
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = ({ socket, onOpenModal, onOpenStats }) => {
+const Navbar = ({ socket, onOpenModal, onOpenStats, onOpenSpells }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -27,7 +28,6 @@ const Navbar = ({ socket, onOpenModal, onOpenStats }) => {
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
-    console.log(dropdownOpen);
   };
 
   const handleNavigation = (mode, route) => {
@@ -77,10 +77,12 @@ const Navbar = ({ socket, onOpenModal, onOpenStats }) => {
             }}
           />
           <FontAwesomeIcon
-            icon={faBars}
+            icon={faBook}
             size="xl"
             className="cursor-pointer hover:text-white transition-all"
-            onClick={toggleDropdown}
+            onClick={() => {
+              onOpenSpells();
+            }}
           />
         </div>
       </nav>

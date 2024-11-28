@@ -47,7 +47,7 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
               placeholder="Search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`transition-all duration-300 ease-in-out text-white ${
+              className={`transition-all duration-300 ease-in-out text-black ${
                 isOpen ? "w-full ml-3 opacity-100" : "w-0 ml-0 opacity-0"
               } px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />

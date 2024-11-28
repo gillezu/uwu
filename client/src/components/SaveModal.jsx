@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faSave } from "@fortawesome/free-solid-svg-icons";
 
-function SaveModal({ onClose }) {
+function SaveModal({ onClose, socket }) {
   const [patternName, setPatternName] = useState("");
 
   const savePattern = () => {
-    console.log(patternName);
+    socket.emit("addPattern", patternName)
   };
+
+  // Event listener for "Enter" key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        savePattern();
+        const timeOut = setTimeout(() => {
+          onClose();
+        }, 250);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [patternName, onClose, socket]);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur">
@@ -34,7 +49,7 @@ function SaveModal({ onClose }) {
             placeholder="Enter Name for Pattern..."
             value={patternName}
             onChange={(e) => setPatternName(e.target.value)}
-            className={`text-white w-1/2 mt-10 mb-5 px-3 py-2 rounded border border-gray-300 
+            className={`text-black w-1/2 mt-10 mb-5 px-3 py-2 rounded border border-gray-300 
             focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
           <button

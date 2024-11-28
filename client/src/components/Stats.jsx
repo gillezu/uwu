@@ -2,21 +2,33 @@ import React from "react";
 
 const Stats = ({ stats }) => {
   return (
-    <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg p-4 w-64 border border-gray-200">
-      <h1 className="text-lg font-semibold text-gray-800">Statistics</h1>
-      <hr className="my-2 border-gray-300" />
+    <div
+      className="absolute top-16 right-4 bg-gradient-to-br from-blue-500 via-purple-500 to-red-500 shadow-2xl rounded-xl p-6 w-80 border border-opacity-30 border-white text-white 
+      animate-fadeIn backdrop-blur-lg backdrop-saturate-150"
+    >
+      <h1 className="text-2xl font-extrabold tracking-wide text-white mb-4 drop-shadow-md">
+        📊 Statistics
+      </h1>
+      <hr className="my-2 border-opacity-50" />
       {Array.isArray(stats) && stats.length >= 2 ? (
         <>
-          <p className="text-sm text-gray-600">
-            <span className="font-bold">Cells alive:</span> {stats[0]}
-          </p>
-          <p className="text-sm text-gray-600">
-            <span className="font-bold">Cells dead:</span> {stats[1]}
-          </p>
+          <div className="flex justify-between items-center text-lg my-3">
+            <span className="font-semibold drop-shadow-md">Cells alive:</span>
+            <span className="font-bold text-emerald-300">{stats[0]}</span>
+          </div>
+          <div className="flex justify-between items-center text-lg my-3">
+            <span className="font-semibold drop-shadow-md">Cells dead:</span>
+            <span className="font-bold text-red-300">{stats[1]}</span>
+          </div>
         </>
       ) : (
-        <p className="text-sm text-gray-600">No Stats availible in this Mode</p>
+        <p className="text-lg italic text-gray-200 mt-4">
+          No statistics available in this mode.
+        </p>
       )}
+      <div className="mt-4 text-center text-sm font-light opacity-75">
+        Game of Life - Powered by Gioele & Richard
+      </div>
     </div>
   );
 };

@@ -11,6 +11,7 @@ from routes.resetGrid import reset_grid_bp
 from routes.keyPress import key_press_bp
 from routes.getPatterns import send_patterns_bp
 from routes.applyPattern import apply_patterns_bp
+from routes.addPattern import add_pattern_bp
 
 # Initialize app
 app = Flask(__name__)
@@ -31,6 +32,7 @@ app.register_blueprint(next_generation_bp)
 app.register_blueprint(key_press_bp)
 app.register_blueprint(send_patterns_bp)
 app.register_blueprint(apply_patterns_bp)
+app.register_blueprint(add_pattern_bp)
 
 
 if __name__ == "__main__":
