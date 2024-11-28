@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faSave } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-hot-toast";
 
-function SaveModal({ onClose, socket }) {
+function SaveModal({ onClose, socket, isRunning }) {
   const [patternName, setPatternName] = useState("");
 
   const savePattern = () => {
-    socket.emit("addPattern", patternName)
+    socket.emit("addPattern", patternName);
   };
 
   // Event listener for "Enter" key
@@ -43,26 +44,38 @@ function SaveModal({ onClose, socket }) {
             </button>
           </div>
         </div>
-        <div className="p-10 flex flex-col justify-center items-center">
-          <input
-            type="text"
-            placeholder="Enter Name for Pattern..."
-            value={patternName}
-            onChange={(e) => setPatternName(e.target.value)}
-            className={`text-black w-1/2 mt-10 mb-5 px-3 py-2 rounded border border-gray-300 
-            focus:outline-none focus:ring-2 focus:ring-blue-500`}
-          />
-          <button
-            onClick={() => {
-              savePattern();
-              const timeOut = setTimeout(() => {
-                onClose();
-              }, 250);
-            }}
-            className="mb-10 mt-5 border-2 hover:scale-105 hover:border-white active:scale-95 hover:bg-transparent"
-          >
-            <FontAwesomeIcon icon={faSave} size="2x" />
-          </button>
+        <div className="p-10 flex flex-col justify-center items-center text-white">
+          {isRunning ? (
+            <p> Please Stop Game to SavePattern</p>
+          ) : (
+            <>
+              <input
+                type="text"
+                placeholder="Enter Name for Pattern..."
+                value={patternName}
+                onChange={(e) => setPatternName(e.target.value)}
+                className={`text-white w-1/2 mt-10 mb-5 px-3 py-2 rounded border border-gray-300 
+            focus:outline-none focus:ring-2 focus:ring-white`}
+              />
+              <button
+                onClick={() => {
+                  if (patternName === "") {
+                    toast.error(
+                      "Please provide a Name for the Grid to be Saved",
+                    );
+                  } else {
+                    savePattern();
+                    const timeOut = setTimeout(() => {
+                      onClose();
+                    }, 250);
+                  }
+                }}
+                className="mb-10 mt-5 border-2 hover:scale-105 hover:border-white active:scale-95 hover:bg-transparent"
+              >
+                <FontAwesomeIcon icon={faSave} size="2x" />
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

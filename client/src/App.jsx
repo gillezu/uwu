@@ -20,6 +20,7 @@ import SaveModal from "./components/SaveModal";
 import { socket } from "./utils/socketioSetup";
 import "./styles/animations/rotate.css";
 import axios from "axios";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,6 +31,7 @@ function App() {
   const [curtainOpen, setCurtainOpen] = useState(false);
   const [renderContent, setRenderContent] = useState(false);
   const [easeIn, setEaseIn] = useState(false);
+  const [isRunning, setIsRunning] = useState(false); // Speichert, ob der Vorgang läuft
 
   const [data, setData] = useState({
     cell_age: [[]],
@@ -118,6 +120,12 @@ function App() {
       bg-cover bg-center bg-[url('./assets/polygonScatterBG.svg')]"
       /*style={{ animation: "rotate-background 10s infinite linear" }}***/ //
     >
+      <Toaster
+        toastOptions={{
+          duration: 3000,
+          position: "bottom-left",
+        }}
+      />
       <div
         className={` z-50 absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-blue-500 
           via-purple-500 to-red-500  transition-transform duration-1000 ${
@@ -181,9 +189,15 @@ function App() {
                   onOpenSaveModal={() => {
                     setIsSaveModalOpen(true);
                   }}
+                  isRunning={isRunning}
+                  setIsRunning={setIsRunning}
                 />
                 {isSaveModalOpen && (
-                  <SaveModal socket={socket} onClose={() => setIsSaveModalOpen(false)} />
+                  <SaveModal
+                    socket={socket}
+                    onClose={() => setIsSaveModalOpen(false)}
+                    isRunning={isRunning}
+                  />
                 )}
               </>
             }

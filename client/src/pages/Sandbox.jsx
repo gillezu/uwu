@@ -14,7 +14,7 @@ import SaveToLibraryButton from "../components/controllers/SaveToLibraryButton";
 import GridCanvas from "../components/GridCanvas";
 import "../styles/components/slider.css";
 
-function Sandbox({ onOpenSaveModal, anyModalOpened }) {
+function Sandbox({ onOpenSaveModal, anyModalOpened, isRunning, setIsRunning }) {
   const [data, setData] = useState({
     cell_age: [[]],
     cell_size: 5,
@@ -99,7 +99,12 @@ function Sandbox({ onOpenSaveModal, anyModalOpened }) {
             socket={socket}
             resetGeneration={resetGeneration}
           />
-          <StartPauseButton socket={socket} FPS={fps} />
+          <StartPauseButton
+            socket={socket}
+            FPS={fps}
+            isRunning={isRunning}
+            setIsRunning={setIsRunning}
+          />
           <ResetButton socket={socket} resetGeneration={resetGeneration} />
           <SaveToLibraryButton onOpenSaveModal={onOpenSaveModal} />
         </div>

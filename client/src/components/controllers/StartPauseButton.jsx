@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 
-const StartPauseButton = ({ socket, FPS }) => {
-  const [isRunning, setIsRunning] = useState(false); // Speichert, ob der Vorgang läuft
+const StartPauseButton = ({ socket, FPS, isRunning, setIsRunning }) => {
   const [intervalId, setIntervalId] = useState(null); // Speichert die Intervall-ID
 
   const startProcess = () => {
