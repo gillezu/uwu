@@ -28,64 +28,79 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
   };
 
   const filteredPatterns = Object.entries(patterns).filter(([name]) =>
-    name.toLowerCase().includes(searchQuery.toLowerCase()),
+    name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur">
-      <div className="bg-black w-[50vw] h-[70vh] rounded shadow-lg flex flex-col border-2 border-white">
-        <div className="flex justify-between items-start p-5 border-b border-white">
-          <div className="w-1/3 flex items-center">
+    <div
+      className="fixed inset-0 bg-gradient-to-br bg-opacity-90 
+      flex items-center justify-center z-50 backdrop-blur-md animate-fadeIn"
+    >
+      <div
+        className="bg-gradient-to-br from-purple-700 via-black to-gray-900 w-[90vw] max-w-5xl h-[70vh] rounded-xl 
+        shadow-2xl border border-opacity-30 border-white p-6"
+      >
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          {/* Search */}
+          <div className="flex items-center w-1/3">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 focus:outline-none hover:scale-105"
+              className="p-2 focus:outline-none hover:scale-105 text-black transition-transform duration-300"
             >
               <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
             </button>
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Search patterns..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`transition-all duration-300 ease-in-out text-black ${
-                isOpen ? "w-full ml-3 opacity-100" : "w-0 ml-0 opacity-0"
-              } px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              className={`ml-3 text-white bg-gray-800 px-4 py-2 rounded-lg border border-gray-600 focus:outline-none 
+              focus:ring-2 focus:ring-green-500 transition-all duration-300 ${
+                isOpen ? "w-full opacity-100" : "w-0 opacity-0"
+              }`}
             />
           </div>
-          <div className="w-1/3 flex justify-center items-center">
-            <FontAwesomeIcon icon={faBook} size="3x" />
-            <h1 className="text-5xl mx-5 text-white">Library</h1>
-            <FontAwesomeIcon icon={faBook} size="3x" />
+
+          {/* Title */}
+          <div className="text-center w-1/3">
+            <h1
+              className="text-4xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r 
+              from-green-400 to-blue-500 flex justify-center items-center"
+            >
+              <FontAwesomeIcon icon={faBook} className="mr-2" />
+              Library
+              <FontAwesomeIcon icon={faBook} className="ml-2" />
+            </h1>
           </div>
-          <div className="w-1/3 flex justify-end">
+
+          {/* Close Button */}
+          <div className="flex justify-end w-1/3">
             <button
-              className="px-4 py-2 rounded text-white bg-transparent border-2 hover:border-white
-              transition-colors duration-500 ease-in-out"
+              className="text-white text-lg bg-white bg-opacity-10 hover:bg-opacity-20 p-2 rounded-full transition duration-300"
               onClick={onClose}
             >
-              <FontAwesomeIcon icon={faClose} size="2x" />
+              <FontAwesomeIcon icon={faClose} size="lg" />
             </button>
           </div>
         </div>
+
+        {/* Main Content */}
         {sandBox ? (
-          <div className="overflow-auto p-4">
-            <table className="w-full text-white border-collapse">
+          <div className="overflow-auto h-[calc(100%-80px)] p-4 text-white">
+            <table className="w-full border-collapse text-left">
               <thead>
                 <tr>
-                  <th className="border-b-2 border-gray-700 py-2 text-left">
-                    Pattern Name
-                  </th>
-                  <th className="border-b-2 border-gray-700 py-2 text-left">
-                    Pattern Code
-                  </th>
+                  <th className="border-b border-gray-700 py-2">Pattern Name</th>
+                  <th className="border-b border-gray-700 py-2">Code</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredPatterns.length > 0 ? (
                   filteredPatterns.map(([name, code], index) => (
                     <tr
-                      className="py-2 border-b border-gray-700 cursor-pointer hover:bg-gray-700 hover:text-white transition-colors duration-300"
                       key={index}
+                      className="cursor-pointer hover:bg-gray-700 transition-all duration-300"
                       onClick={() => onPatternClick(code)}
                     >
                       <td className="py-2 border-b border-gray-700">{name}</td>
@@ -98,7 +113,7 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
                   <tr>
                     <td
                       colSpan="2"
-                      className="py-5 text-center text-gray-500 text-lg"
+                      className="text-center text-gray-400 py-6"
                     >
                       No patterns match your search.
                     </td>
@@ -108,15 +123,15 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
             </table>
           </div>
         ) : (
-          <div className="h-[80%] flex flex-col items-center justify-center">
-            <h1 className="text-white text-4xl mb-10 text-center">
-              No patterns available in this mode. <br />
-              Switch to Sandbox mode to use patterns.
+          <div className="flex flex-col items-center justify-center h-full">
+            <h1 className="text-white text-3xl mb-6 text-center">
+              Patterns are not available in this mode. <br />
+              Switch to Sandbox mode to view and apply patterns.
             </h1>
             <button
-              className="px-16 py-5 rounded-full bg-gradient-to-r from-purple-600 to-red-500 
-            text-white font-semibold text-lg shadow-lg hover:scale-105 transform transition"
               onClick={handleSwitchMode}
+              className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-red-500 
+              text-white font-semibold text-lg shadow-lg hover:scale-105 transform transition-transform duration-300"
             >
               Switch to Sandbox
             </button>

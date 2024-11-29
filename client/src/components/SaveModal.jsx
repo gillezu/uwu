@@ -8,16 +8,19 @@ function SaveModal({ onClose, socket, isRunning }) {
 
   const savePattern = () => {
     socket.emit("addPattern", patternName);
+    toast.success("Pattern saved successfully!");
   };
 
   // Event listener for "Enter" key
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Enter") {
+      if (e.key === "Enter" && patternName.trim() !== "") {
         savePattern();
         const timeOut = setTimeout(() => {
           onClose();
         }, 250);
+      } else if (e.key === "Enter" && patternName.trim() === "") {
+        toast.error("Please provide a Name for the Grid to be Saved");
       }
     };
 
@@ -26,53 +29,64 @@ function SaveModal({ onClose, socket, isRunning }) {
   }, [patternName, onClose, socket]);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur">
-      <div className="bg-black w-[50vw] h-[20vh] rounded shadow-lg flex flex-col border-2 border-white">
-        <div className=" relative flex justify-between items-start p-5 border-b border-white">
-          <div className="w-[100%] flex justify-center items-center text-center">
-            <h1 className="text-5xl mx-5 text-white">
-              Save Grid Pattern to Library
-            </h1>
-          </div>
-          <div className="absolute right-3">
-            <button
-              className="px-4 py-2 rounded text-white bg-transparent border-2 hover:border-white
-              transition-colors duration-500 ease-in-out"
-              onClick={onClose}
-            >
-              <FontAwesomeIcon icon={faClose} size="2x" />
-            </button>
-          </div>
+    <div
+      className="fixed inset-0 bg-gradient-to-br bg-opacity-90 flex items-center justify-center z-50 
+      backdrop-blur-md"
+    >
+      <div
+        className="bg-gradient-to-br from-purple-700 via-black to-gray-900 w-[90vw] max-w-lg rounded-xl shadow-2xl 
+        border border-opacity-30 border-white p-6 animate-fadeIn"
+      >
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <h1
+            className="text-3xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r 
+            from-green-400 to-blue-500"
+          >
+            Save Grid Pattern
+          </h1>
+          <button
+            className="text-white text-lg bg-white bg-opacity-10 hover:bg-opacity-20 p-2 rounded-full transition duration-300"
+            onClick={onClose}
+          >
+            <FontAwesomeIcon icon={faClose} size="lg" />
+          </button>
         </div>
-        <div className="p-10 flex flex-col justify-center items-center text-white">
+
+        {/* Content */}
+        <div className="flex flex-col items-center text-white">
           {isRunning ? (
-            <p> Please Stop Game to SavePattern</p>
+            <p className="text-lg font-light text-center">
+              ⏸️ Please pause the game before saving your pattern.
+            </p>
           ) : (
             <>
               <input
                 type="text"
-                placeholder="Enter Name for Pattern..."
+                placeholder="Enter a name for your pattern..."
                 value={patternName}
                 onChange={(e) => setPatternName(e.target.value)}
-                className={`text-white w-1/2 mt-10 mb-5 px-3 py-2 rounded border border-gray-300 
-            focus:outline-none focus:ring-2 focus:ring-white`}
+                className="w-full px-4 py-2 mb-4 rounded-lg bg-gray-800 text-white 
+                border border-gray-600 focus:ring-2 focus:ring-green-500 outline-none transition"
               />
               <button
                 onClick={() => {
-                  if (patternName === "") {
+                  if (patternName.trim() === "") {
                     toast.error(
-                      "Please provide a Name for the Grid to be Saved",
+                      "Please provide a Name for the Grid to be Saved"
                     );
                   } else {
                     savePattern();
-                    const timeOut = setTimeout(() => {
+                    setTimeout(() => {
                       onClose();
                     }, 250);
                   }
                 }}
-                className="mb-10 mt-5 border-2 hover:scale-105 hover:border-white active:scale-95 hover:bg-transparent"
+                className="px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-lg shadow-lg 
+                hover:scale-105 hover:bg-gradient-to-l active:scale-95 transition-transform duration-300"
               >
-                <FontAwesomeIcon icon={faSave} size="2x" />
+                <FontAwesomeIcon icon={faSave} className="mr-2" />
+                Save Pattern
               </button>
             </>
           )}
