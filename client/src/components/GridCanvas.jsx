@@ -130,6 +130,9 @@ const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClic
           case "u":
             onKeyPress(3, i, j);
             break;
+          case "r":
+            onKeyPress(4, i, j);
+            break;
           default:
             console.log(`Andere Taste: ${event.key}`);
         };

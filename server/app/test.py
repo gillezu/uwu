@@ -213,6 +213,8 @@ class Grid:
             self.apply_freeze(pos_x, pos_y)
         elif key == 3:
             self.apply_unfreeze()
+        elif key == 4:
+            self.apply_revive(pos_x, pos_y)
 
     def apply_lightning(self, pos_x: int, pos_y: int):
         for i, row in enumerate(self.cells):
@@ -241,6 +243,18 @@ class Grid:
                 cell.next_state = CellState.ALIVE if cell.state == CellState.DEAD else CellState.DEAD
                 cell.time_not_changed = 0
                 cell.update_state()
+
+    def apply_revive(self, pos_x: int, pos_y: int):
+        for i, row in enumerate(self.cells):
+            if math.sqrt(pow(i - pos_x, 2)) <= 10:
+                for j, cell in enumerate(row):
+                    if (math.sqrt(pow(i - pos_x, 2) + pow(j - pos_y, 2)) <= 10) and (cell.state == CellState.DEAD):
+                        if True: #random.random() > 0.7
+                            print(cell.state)
+                            cell.state = CellState.ALIVE
+                            print(cell.state)
+                            cell.time_not_changed = 0
+                            cell.update_state()
 
     def get_stats(self):
         self.stats = [0, 0, 0, 0]
