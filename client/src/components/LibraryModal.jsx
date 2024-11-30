@@ -46,7 +46,7 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
           <div className="flex items-center w-1/3">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 focus:outline-none hover:scale-105 text-white transition-transform duration-300"
+              className="p-2 focus:outline-none bg-black bg-opacity-10 hover:bg-opacity-20 hover:scale-105 text-white transition-transform duration-300"
             >
               <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
             </button>

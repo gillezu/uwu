@@ -6,6 +6,8 @@ const SpellInfoModal = ({ show }) => {
     { key: "u", name: "Unfreeze", description: "❄️ Brings the grid back to life—melting the freeze!" },
     { key: "e", name: "Earthquake", description: "🌍 Shakes things up! Randomizes parts of the grid." },
     { key: "l", name: "Lightning", description: "⚡ Zap! Strikes down random cells for an electrifying twist." },
+    { key: "r", name: "Resurrection Zone", description: "🔄 Revives all cells in a small area—like a local CPR spell!" },
+    { key: "Shift + R", name: "Divine Rebirth", description: "🌟 A divine spell that revives every cell on the grid—pure rebirth magic!" },
   ];
 
   return (
