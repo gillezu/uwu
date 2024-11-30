@@ -37,7 +37,6 @@ function SaveModal({ onClose, socket, isRunning }) {
         className="bg-gradient-to-br from-purple-700 via-black to-gray-900 w-[90vw] max-w-lg rounded-xl shadow-2xl 
         border border-opacity-30 border-white p-6 animate-fadeIn"
       >
-        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1
             className="text-3xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r 
@@ -52,8 +51,6 @@ function SaveModal({ onClose, socket, isRunning }) {
             <FontAwesomeIcon icon={faClose} size="lg" />
           </button>
         </div>
-
-        {/* Content */}
         <div className="flex flex-col items-center text-white">
           {isRunning ? (
             <p className="text-lg font-light text-center">
@@ -73,7 +70,7 @@ function SaveModal({ onClose, socket, isRunning }) {
                 onClick={() => {
                   if (patternName.trim() === "") {
                     toast.error(
-                      "Please provide a Name for the Grid to be Saved"
+                      "Please provide a Name for the Grid to be Saved",
                     );
                   } else {
                     savePattern();

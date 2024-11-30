@@ -28,7 +28,7 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
   };
 
   const filteredPatterns = Object.entries(patterns).filter(([name]) =>
-    name.toLowerCase().includes(searchQuery.toLowerCase())
+    name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -46,7 +46,7 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
           <div className="flex items-center w-1/3">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 focus:outline-none hover:scale-105 text-black transition-transform duration-300"
+              className="p-2 focus:outline-none hover:scale-105 text-white transition-transform duration-300"
             >
               <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" />
             </button>
@@ -91,7 +91,9 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr>
-                  <th className="border-b border-gray-700 py-2">Pattern Name</th>
+                  <th className="border-b border-gray-700 py-2">
+                    Pattern Name
+                  </th>
                   <th className="border-b border-gray-700 py-2">Code</th>
                 </tr>
               </thead>
@@ -111,10 +113,7 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
                   ))
                 ) : (
                   <tr>
-                    <td
-                      colSpan="2"
-                      className="text-center text-gray-400 py-6"
-                    >
+                    <td colSpan="2" className="text-center text-gray-400 py-6">
                       No patterns match your search.
                     </td>
                   </tr>
