@@ -15,3 +15,7 @@ def getPatterns():
 
 def addPattern(newPattern):
     response = supabase.table("Patterns").insert(newPattern).execute()
+
+
+def deletePattern(patternName):
+    response = supabase.table("Patterns").delete().eq("Name", patternName).execute()
