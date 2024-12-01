@@ -4,8 +4,10 @@ import {
   faBook,
   faClose,
   faMagnifyingGlass,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,12 +21,19 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
   const onPatternClick = (code) => {
     socket.emit("applyPattern", { code });
     resetGeneration();
+    toast.success("Pattern applied successfully");
     onClose();
   };
 
   const handleSwitchMode = () => {
     navigate("/sandbox");
     onClose();
+  };
+
+  const deletePattern = (name) => {
+    socket.emit("deletePattern", { name });
+    socket.emit("sendPatterns");
+    toast.success("Pattern deleted successfully");
   };
 
   const filteredPatterns = Object.entries(patterns).filter(([name]) =>
@@ -95,6 +104,7 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
                     Pattern Name
                   </th>
                   <th className="border-b border-gray-700 py-2">Code</th>
+                  <th className="border-b border-gray-700 py-2">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -109,11 +119,22 @@ function LibraryModal({ socket, onClose, patterns, resetGeneration }) {
                       <td className="py-2 border-b border-gray-700 font-mono">
                         {code.length > 10 ? `${code.slice(0, 10)}...` : code}
                       </td>
+                      <td className="py-2 border-b border-gray-700 text-center">
+                        <button
+                          className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded transition-all duration-300"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deletePattern(name);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faTrash} size="lg" />
+                        </button>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="2" className="text-center text-gray-400 py-6">
+                    <td colSpan="3" className="text-center text-gray-400 py-6">
                       No patterns match your search.
                     </td>
                   </tr>

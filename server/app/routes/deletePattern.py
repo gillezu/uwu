@@ -7,6 +7,6 @@ delete_pattern_bp = Blueprint("deletePattern", __name__)
 
 
 @socketio.on("deletePattern")
-def send_patterns(data):
-    deletePattern(data)
-    print("patterns deleted")
+def delete_pattern(data):
+    deletePattern(data["name"])
+    print(f"pattern {data["name"]} deleted")
