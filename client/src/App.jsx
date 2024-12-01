@@ -32,6 +32,12 @@ function App() {
   const [renderContent, setRenderContent] = useState(false);
   const [easeIn, setEaseIn] = useState(false);
   const [isRunning, setIsRunning] = useState(false); // Speichert, ob der Vorgang läuft
+  const [experience, setExperience] = useState(0); // Aktuelle Exp
+  const [level, setLevel] = useState(1); // Aktuelles Level
+  const maxLevel = 8; // Maximal erreichbares Level
+
+  // Exp-Anforderungen für jedes Level
+  const expRequirements = [0, 100, 200, 350, 500, 700, 1000, 1500];
 
   const [data, setData] = useState({
     cell_age: [[]],
@@ -52,6 +58,20 @@ function App() {
 
   const [headerZoom, setHeaderZoom] = useState(false);
 
+  useEffect (() => {
+    if (level >= maxLevel) return; // Max. Level erreicht, keine weitere Erhöhung
+
+    const expToLevelUp = expRequirements[level]; // Exp-Anforderung des aktuellen Levels
+  
+    if (experience >= expToLevelUp) {
+      const leftoverExp = experience - expToLevelUp; // Rest-Exp ins nächste Level übertragen
+      setLevel((prevLevel) => Math.min(prevLevel + 1, maxLevel)); // Level erhöhen
+      setExperience(leftoverExp); // Restliche Exp behalten
+    } else {
+      setExperience(experience); // Exp erhöhen, Level bleibt gleich
+    }
+  }, [experience, level]);
+  
   useEffect(() => {
     setAnyModalOpened(isModalOpen || isSaveModalOpen);
   }, [isModalOpen, isSaveModalOpen]);
@@ -77,6 +97,7 @@ function App() {
   useEffect(() => {
     socket.on("getGrid", (response) => {
       setData(response);
+      setExperience((prevCount) => prevCount + 1);
       setGeneration((prevCount) => prevCount + 0.5); // Keine Ahnung warum 0.5, Funktion wird anscheinend 2x ausgeführt
     });
   }, []);
@@ -212,6 +233,31 @@ function App() {
           <Route path="/levels/level7" element={<Level7 />} />
           <Route path="/levels/level8" element={<Level8 />} />
         </Routes>
+      )}
+      {renderContent && (
+        <div className="absolute bottom-0 left-0 w-full bg-gray-800 bg-opacity-90 h-10 flex items-center px-4">
+          {/* Container für Balken und Text */}
+          <div className="flex-grow flex items-center space-x-4">
+            {/* Fortschrittsbalken-Hintergrund */}
+            <div className="relative w-full h-2 bg-gray-600 rounded-full">
+              {/* Fortschrittsbalken-Füllung */}
+              <div
+                className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500"
+                style={{ width: `${Math.min((100 * experience) / expRequirements[level], 100)}%` }}
+              ></div>
+            </div>
+          </div>
+
+          {/* Level-Anzeige */}
+          <div className="ml-4 flex flex-col items-end">
+            <span className="text-white text-sm font-semibold">
+              Level: {level}
+            </span>
+            <span className="text-white text-sm font-light">
+              Exp: {experience.toFixed(0)}/{expRequirements[level]}
+            </span>
+          </div>
+        </div>
       )}
     </div>
   );
