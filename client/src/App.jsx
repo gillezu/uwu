@@ -21,6 +21,7 @@ import { socket } from "./utils/socketioSetup";
 import "./styles/animations/rotate.css";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
+import { LoadModal } from "./components/LoadModal";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,6 +36,7 @@ function App() {
   const [experience, setExperience] = useState(0); // Aktuelle Exp
   const [level, setLevel] = useState(1); // Aktuelles Level
   const maxLevel = 8; // Maximal erreichbares Level
+  const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
 
   // Exp-Anforderungen für jedes Level
   const expRequirements = [0, 100, 200, 350, 500, 700, 1000, 1500];
@@ -58,11 +60,11 @@ function App() {
 
   const [headerZoom, setHeaderZoom] = useState(false);
 
-  useEffect (() => {
+  useEffect(() => {
     if (level >= maxLevel) return; // Max. Level erreicht, keine weitere Erhöhung
 
     const expToLevelUp = expRequirements[level]; // Exp-Anforderung des aktuellen Levels
-  
+
     if (experience >= expToLevelUp) {
       const leftoverExp = experience - expToLevelUp; // Rest-Exp ins nächste Level übertragen
       setLevel((prevLevel) => Math.min(prevLevel + 1, maxLevel)); // Level erhöhen
@@ -71,7 +73,7 @@ function App() {
       setExperience(experience); // Exp erhöhen, Level bleibt gleich
     }
   }, [experience, level]);
-  
+
   useEffect(() => {
     setAnyModalOpened(isModalOpen || isSaveModalOpen);
   }, [isModalOpen, isSaveModalOpen]);
@@ -173,6 +175,7 @@ function App() {
             setIsStatsOpen(false);
             setIsSpellsOpen(!isSpellsOpen);
           }}
+          setIsLoadModalOpen={setIsLoadModalOpen}
         />
       )}
       {isModalOpen && (
@@ -220,6 +223,12 @@ function App() {
                     isRunning={isRunning}
                   />
                 )}
+                {isLoadModalOpen && (
+                  <LoadModal
+                    socket={socket}
+                    onClose={() => setIsLoadModalOpen(false)}
+                  />
+                )}
               </>
             }
           />
@@ -243,7 +252,9 @@ function App() {
               {/* Fortschrittsbalken-Füllung */}
               <div
                 className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500"
-                style={{ width: `${Math.min((100 * experience) / expRequirements[level], 100)}%` }}
+                style={{
+                  width: `${Math.min((100 * experience) / expRequirements[level], 100)}%`,
+                }}
               ></div>
             </div>
           </div>

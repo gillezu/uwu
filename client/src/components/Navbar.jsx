@@ -11,7 +11,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = ({ socket, onOpenModal, onOpenStats, onOpenSpells }) => {
+const Navbar = ({
+  socket,
+  onOpenModal,
+  onOpenStats,
+  onOpenSpells,
+  setIsLoadModalOpen,
+}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -56,6 +62,8 @@ const Navbar = ({ socket, onOpenModal, onOpenStats, onOpenSpells }) => {
                 if (nav === "Library") {
                   loadPatterns();
                   onOpenModal();
+                } else if (nav === "Load Pattern") {
+                  setIsLoadModalOpen(true);
                 }
               }}
             >

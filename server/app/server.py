@@ -9,6 +9,7 @@ from routes.deletePattern import delete_pattern_bp
 from routes.getPatterns import send_patterns_bp
 from routes.initializeRandom import initialize_random_bp
 from routes.keyPress import key_press_bp
+from routes.loadPattern import load_pattern_bp
 from routes.mouseCoords import mouse_coords_bp
 from routes.nextGeneration import next_generation_bp
 from routes.resetGrid import reset_grid_bp
@@ -34,6 +35,7 @@ app.register_blueprint(send_patterns_bp)
 app.register_blueprint(apply_patterns_bp)
 app.register_blueprint(add_pattern_bp)
 app.register_blueprint(delete_pattern_bp)
+app.register_blueprint(load_pattern_bp)
 
 
 if __name__ == "__main__":
