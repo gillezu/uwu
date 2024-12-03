@@ -1,3 +1,4 @@
+from app.routes.resetGrid import reset_grid
 from extensions import socketio
 from flask import Blueprint
 from flask_socketio import emit
@@ -9,6 +10,7 @@ load_pattern_bp = Blueprint("load_pattern", __name__)
 
 @socketio.on("loadPattern")
 def loadPattern(data):
+    grid.reset_field()
     grid.apply_rle_pattern(data)
     socketio.emit("getGrid", grid.to_dict())
     print(data)
