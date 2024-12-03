@@ -14,7 +14,7 @@ import SaveToLibraryButton from "../components/controllers/SaveToLibraryButton";
 import GridCanvas from "../components/GridCanvas";
 import "../styles/components/slider.css";
 
-function Sandbox({ onOpenSaveModal, anyModalOpened, isRunning, setIsRunning }) {
+function Sandbox({ onOpenSaveModal, anyModalOpened, isRunning, setIsRunning, level }) {
   const [data, setData] = useState({
     cell_age: [[]],
     cell_size: 5,
@@ -129,6 +129,7 @@ function Sandbox({ onOpenSaveModal, anyModalOpened, isRunning, setIsRunning }) {
             onKeyPress={async (key, i, j) => {
               socket.emit("keyPress", { key, i, j });
             }}
+            level={level}
           />
         </div>
         <div

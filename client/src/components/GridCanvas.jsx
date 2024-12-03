@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import SaveModal from "./SaveModal";
 
-const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClick, onKeyPress, anyModalOpened }) => {
+const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClick, onKeyPress, anyModalOpened, level }) => {
   const [coords, setCoords] = useState({ x: 5, y: 5 });
   const coordsRef = useRef(coords)
   const canvasRef = useRef(null);
@@ -119,22 +119,35 @@ const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClic
         const j = Math.floor(x / cellSize);
         switch (event.key) {
           case "l":
-            onKeyPress(0, i, j);
+            console.log('l'+level)
+            if (level >= 3) {
+              onKeyPress(0, i, j);
+            }
             break;
           case "e":
-            onKeyPress(1, i, j);
+            if (level >= 4) {
+              onKeyPress(1, i, j);
+            }
             break;
           case "f":
-            onKeyPress(2, i, j);
+            if (level >= 6) {
+              onKeyPress(2, i, j);
+            }
             break;
           case "u":
-            onKeyPress(3, i, j);
+            if (level >= 6) {
+              onKeyPress(3, i, j);
+            }
             break;
           case "r":
-            onKeyPress(4, i, j);
+            if (level >= 7) {
+              onKeyPress(4, i, j);
+            }
             break;
           case "R":
-            onKeyPress(5, i, j);
+            if (level >= 8) {
+              onKeyPress(5, i, j);
+            }
             break;
         };
       };

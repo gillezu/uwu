@@ -37,7 +37,7 @@ export const LoadModal = ({ onClose, socket }) => {
         <div className="flex flex-col items-center text-white">
           <input
             type="text"
-            placeholder="Enter a name for your pattern..."
+            placeholder="Enter the RLE code for your pattern..."
             value={patternRLE}
             onChange={(e) => setPatternRLE(e.target.value)}
             className="w-full px-4 py-2 mb-4 rounded-lg bg-gray-800 text-white 

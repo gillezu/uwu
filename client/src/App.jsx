@@ -99,7 +99,7 @@ function App() {
   useEffect(() => {
     socket.on("getGrid", (response) => {
       setData(response);
-      setExperience((prevCount) => prevCount + 1);
+      setExperience((prevCount) => prevCount + 5);
       setGeneration((prevCount) => prevCount + 0.5); // Keine Ahnung warum 0.5, Funktion wird anscheinend 2x ausgeführt
     });
   }, []);
@@ -194,7 +194,7 @@ function App() {
         ))}
       {isSpellsOpen &&
         (location.pathname === "/sandbox" ? (
-          <SpellInfo show={true} />
+          <SpellInfo level={level} show={true} />
         ) : (
           <SpellInfo show={false} />
         ))}
@@ -215,6 +215,7 @@ function App() {
                   }}
                   isRunning={isRunning}
                   setIsRunning={setIsRunning}
+                  level={level}
                 />
                 {isSaveModalOpen && (
                   <SaveModal
@@ -253,7 +254,7 @@ function App() {
               <div
                 className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500"
                 style={{
-                  width: `${Math.min((100 * experience) / expRequirements[level], 100)}%`,
+                  width: `${level < maxLevel ? Math.min((100 * experience) / expRequirements[level], 100) : 100}%`,
                 }}
               ></div>
             </div>
@@ -265,7 +266,9 @@ function App() {
               Level: {level}
             </span>
             <span className="text-white text-sm font-light">
-              Exp: {experience.toFixed(0)}/{expRequirements[level]}
+              {level < maxLevel
+              ? `Exp: ${experience.toFixed(0)}/${expRequirements[level]}`
+              : "Maxed"}
             </span>
           </div>
         </div>

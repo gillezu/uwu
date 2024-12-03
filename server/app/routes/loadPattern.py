@@ -1,4 +1,3 @@
-from app.routes.resetGrid import reset_grid
 from extensions import socketio
 from flask import Blueprint
 from flask_socketio import emit

@@ -1,13 +1,13 @@
 import React from "react";
 
-const SpellInfoModal = ({ show }) => {
+const SpellInfoModal = ({ show, level }) => {
   const spells = [
-    { key: "f", name: "Freeze", description: "⛔ Freezes the grid in time—like an icy time-out!" },
-    { key: "u", name: "Unfreeze", description: "❄️ Brings the grid back to life—melting the freeze!" },
-    { key: "e", name: "Earthquake", description: "🌍 Shakes things up! Randomizes parts of the grid." },
-    { key: "l", name: "Lightning", description: "⚡ Zap! Strikes down random cells for an electrifying twist." },
-    { key: "r", name: "Resurrection Zone", description: "🔄 Revives all cells in a small area—like a local CPR spell!" },
-    { key: "Shift + R", name: "Divine Rebirth", description: "🌟 A divine spell that revives every cell on the grid—pure rebirth magic!" },
+    { key: "l", level: 3, name: "Lightning", description: "⚡ Zap! Strikes down random cells for an electrifying twist." },
+    { key: "e", level: 4, name: "Earthquake", description: "🌍 Shakes things up! Randomizes parts of the grid." },
+    { key: "f", level: 6, name: "Freeze", description: "⛔ Freezes the grid in time—like an icy time-out!" },
+    { key: "u", level: 6, name: "Unfreeze", description: "❄️ Brings the grid back to life—melting the freeze!" },
+    { key: "r", level: 7, name: "Resurrection Zone", description: "🔄 Revives all cells in a small area—like a local CPR spell!" },
+    { key: "Shift + R", level: 8, name: "Divine Rebirth", description: "🌟 A divine spell that revives every cell on the grid—pure rebirth magic!" },
   ];
 
   return (
@@ -24,17 +24,25 @@ const SpellInfoModal = ({ show }) => {
       <ul className="space-y-4">
       {show ? (
         <>
-            {spells.map((spell) => (
+          {spells.map((spell) => (
             <li key={spell.key} className="flex items-start space-x-3">
-                <div className="flex-shrink-0 bg-black bg-opacity-25 text-white px-3 py-1 rounded-full text-lg font-bold">
-                {spell.key.toUpperCase()}
+              {level >= spell.level ? (
+                <>
+                  <div className="flex-shrink-0 bg-black bg-opacity-25 text-white px-3 py-1 rounded-full text-lg font-bold">
+                    {spell.key.toUpperCase()}
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold">{spell.name}</h2>
+                    <p className="text-sm opacity-90">{spell.description}</p>
+                  </div>
+                </>
+              ) : (
+                <div className="text-gray-400 italic">
+                  Erreiche zuerst Level {spell.level}, um den Spell freizuschalten.
                 </div>
-                <div>
-                <h2 className="text-xl font-semibold">{spell.name}</h2>
-                <p className="text-sm opacity-90">{spell.description}</p>
-                </div>
+              )}
             </li>
-            ))}
+          ))}
         </>
       ) : (
           <p className="text-lg italic text-gray-200 mt-4">
