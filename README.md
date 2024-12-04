@@ -13,4 +13,11 @@ Future Ideas:
 - merge main.py and test.py
 - modularize main.py
 - update pygame
-- 
+- more statistics
+- background music
+- Gravity?
+- Heatmap for activity
+- glow effects
+- seasonal
+- 3d Grids
+- viruses
