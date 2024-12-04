@@ -142,7 +142,7 @@ function Sandbox({ onOpenSaveModal, anyModalOpened, isRunning, setIsRunning, lev
             className="custom-slider"
             type="range"
             min="1"
-            max="50"
+            max="45"
             value={fps}
             onChange={handleFPSChange}
           />

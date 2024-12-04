@@ -11,4 +11,5 @@ initialize_random_bp = Blueprint("initialize_random", __name__)
 def initialize_random():
     print("Grid initialized randomly")
     grid.initialize_random()
+    print(grid.to_dict())
     socketio.emit("getGrid", grid.to_dict())

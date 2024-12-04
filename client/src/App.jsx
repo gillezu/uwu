@@ -34,7 +34,7 @@ function App() {
   const [easeIn, setEaseIn] = useState(false);
   const [isRunning, setIsRunning] = useState(false); // Speichert, ob der Vorgang läuft
   const [experience, setExperience] = useState(0); // Aktuelle Exp
-  const [level, setLevel] = useState(1); // Aktuelles Level
+  const [level, setLevel] = useState(8); // Aktuelles Level
   const maxLevel = 8; // Maximal erreichbares Level
   const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
 
@@ -254,7 +254,7 @@ function App() {
               <div
                 className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500"
                 style={{
-                  width: `${level < maxLevel ? Math.min((100 * experience) / expRequirements[level], 100) : 100}%`,
+                  width: `${level < maxLevel ? Math.min((100 * experienlce) / expRequirements[evel], 100) : 100}%`,
                 }}
               ></div>
             </div>

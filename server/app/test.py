@@ -11,8 +11,12 @@ myfont = pygame.font.SysFont("monospace", 20)
 
 # Enum for cell states
 class CellState(Enum):
-    ALIVE = 1
     DEAD = 0
+    ALIVE = 1
+    PREDATOR = 2
+    HEALER = 3
+    VIRUS = 4
+    EXPLOSIVE = 5
 
 # Class for each cell in the grid
 class Cell:
@@ -26,12 +30,25 @@ class Cell:
 
     def determine_next_state(self, neighbors: List['Cell']):
         """Determine the cell's next state based on Game of Life rules."""
-        alive_neighbors = sum(1 for neighbor in neighbors if neighbor.state == CellState.ALIVE)
-
-        if self.state == CellState.ALIVE:
-            self.next_state = CellState.ALIVE if alive_neighbors in [2, 3] else CellState.DEAD
+        if self.state == CellState.PREDATOR:
+            cell_moves = random.random()
+            print(cell_moves)
+            if cell_moves:
+                self.next_state = CellState.DEAD
+                i = random.randint(0, len(neighbors)-1)
+                neighbors[i].next_state = CellState.PREDATOR
+            else:
+                self.next_state = self.state
         else:
-            self.next_state = CellState.ALIVE if alive_neighbors == 3 else CellState.DEAD
+            if self.next_state == CellState.PREDATOR: pass
+            elif sum(1 for neighbor in neighbors if neighbor.state == CellState.PREDATOR): self.next_state = CellState.DEAD
+            else:
+                alive_neighbors = sum(1 for neighbor in neighbors if neighbor.state == CellState.ALIVE)
+
+                if self.state == CellState.ALIVE:
+                    self.next_state = CellState.ALIVE if alive_neighbors in [2, 3] else CellState.DEAD
+                elif self.state == CellState.DEAD:
+                    self.next_state = CellState.ALIVE if alive_neighbors == 3 else CellState.DEAD
 
         '''Count for time, that a cell did not change'''
         if self.state == self.next_state:
@@ -224,6 +241,8 @@ class Grid:
             self.apply_revive(pos_x, pos_y)
         elif key == 5:
             self.apply_revive_all()
+        elif key == 6:
+            self.apply_predatorization(pos_x, pos_y)
 
     def apply_lightning(self, pos_x: int, pos_y: int):
         for i, row in enumerate(self.cells):
@@ -272,6 +291,16 @@ class Grid:
                         cell.time_not_changed = 0
                         cell.update_state()
 
+    def apply_predatorization(self, pos_x: int, pos_y: int):
+        for i, row in enumerate(self.cells):
+            if math.sqrt(pow(i - pos_x, 2)) <= 10:
+                for j, cell in enumerate(row):
+                    if (math.sqrt(pow(i - pos_x, 2) + pow(j - pos_y, 2)) <= 10) and (cell.state == CellState.DEAD):
+                        if random.random() > 0.7:
+                            cell.next_state = CellState.PREDATOR
+                            cell.time_not_changed = 0
+                            cell.update_state()
+
     def get_stats(self):
         self.stats = [0, 0, 0, 0, 0, 0]
         total_lifespan = 0
@@ -291,34 +320,34 @@ class Grid:
 
     def draw(self, screen):
         """Draw the grid of cells to the screen."""
-        self.stats = [0, 0, 0, 0]
         for row in self.cells:
             for cell in row:
                 #1 color
                 #color = (0, 255, 0) if cell.state == CellState.ALIVE else (0, 0, 0)
                 #changing colors and calculating stats
-                if cell.state == CellState.ALIVE:
+                if cell.state == CellState.PREDATOR:
+                    r = 252
+                    g = 94
+                    b = 3
+                elif cell.state == CellState.ALIVE:
                     if not cell.freezed:
                         r = max(255 - 2*cell.time_not_changed, 0)
                         g = min(cell.time_not_changed, 255)
                         b = max(255 - 0.5*cell.time_not_changed, 0)
-                        color = (r, g, b)
                     elif cell.freezed:
                         r = int(max(255 - 2*cell.time_not_changed, 0)*0.8)
                         g = int(min(cell.time_not_changed, 255)*0.9)
                         b = int(max(255 - 0.5*cell.time_not_changed, 0) + (255 - max(255 - 0.5*cell.time_not_changed, 0))*0.2)
-                        color = (r, g, b)
-                else:
+                elif cell.state == CellState.DEAD:
                     if not cell.freezed:
                         r, g, b = max(255 - cell.time_not_changed, 0), max(255 - cell.time_not_changed, 0), max(255 - cell.time_not_changed, 0)
-                        color = (r, g, b)
                     elif cell.freezed:
                         r = int(max(255 - cell.time_not_changed, 0)*0.8)
                         g = int(max(255 - cell.time_not_changed, 0)*0.9)
                         b = int(max(255 - cell.time_not_changed, 0) + (255 - max(255 - cell.time_not_changed, 0))*0.2)
-                        color = (r, g, b)
+                color = (r, g, b)
                 pygame.draw.rect(screen, color, pygame.Rect(
-                    cell.x * self.cell_size, cell.y * self.cell_size, self.cell_size, self.cell_size))
+                cell.x * self.cell_size, cell.y * self.cell_size, self.cell_size, self.cell_size))
 
 
 # Main Game of Life class to control the game flow
@@ -344,14 +373,7 @@ class GameOfLife:
         self.grid.update()
 
     def apply_spell(self, key: int, pos_x: int = None, pos_y: int = None):
-        if key == 0:
-            self.grid.apply_lightning(pos_x, pos_y)
-        elif key == 1:
-            self.grid.apply_earthquake()
-        elif key == 2:
-            self.grid.apply_freeze(pos_x, pos_y)
-        elif key == 3:
-            self.grid.apply_unfreeze()
+        Grid.apply_spell(key, pos_x, pos_y)
 
 #Buttons
 red_button = pygame.Surface((50, 50)) 
@@ -421,14 +443,24 @@ def main():
                     count = 0
                     started = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_l:
+                if event.key == pygame.K_p and not started and 0<=pos[0]<=(grid_width * cell_size) and 0<=pos[1]<=(grid_height * cell_size):
+                    pos_cell = [pos[0]//cell_size, pos[1]//cell_size]
+                    cell = game.grid.cells[pos_cell[0]][pos_cell[1]]
+                    cell.state = CellState.PREDATOR 
+                elif event.key == pygame.K_l:
                     if 0<=pos[0]<=(grid_width * cell_size) and 0<=pos[1]<=(grid_height * cell_size):
                         game.apply_spell(0, pos[0]/cell_size, pos[1]/cell_size)
-                if event.key == pygame.K_f:
+                elif event.key == pygame.K_f:
                     if 0<=pos[0]<=(grid_width * cell_size) and 0<=pos[1]<=(grid_height * cell_size):
                         game.apply_spell(2, pos[0]/cell_size, pos[1]/cell_size)
                 elif event.key == pygame.K_e:
                     game.apply_spell(1)
+                elif event.key == pygame.K_r:
+                    game.apply_spell(4, pos[0]/cell_size, pos[1]/cell_size)
+                elif event.key == pygame.K_r and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                    game.apply_spell(5)
+                elif event.key == pygame.K_p and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                    game.apply_spell(6, pos[0]/cell_size, pos[1]/cell_size)
                 elif event.key == pygame.K_c:
                     game.grid.reset_field()
                     count = 0
