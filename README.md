@@ -2,7 +2,7 @@
 Future Ideas:
 - Level-based, playable game 
 - webscraping for library
-- Predator
+- Predator, explosive, healer cells
 - Responsiveness?
 - Constants for Spells
 - Background Gioele
