@@ -20,6 +20,22 @@ const Stats = ({ stats }) => {
             <span className="font-semibold drop-shadow-md">Cells dead:</span>
             <span className="font-bold text-red-300">{stats[1]}</span>
           </div>
+          <div className="flex justify-between items-center text-lg my-3">
+            <span className="font-semibold drop-shadow-md">Cells born:</span>
+            <span className="font-bold text-red-300">{stats[2]}</span>
+          </div>
+          <div className="flex justify-between items-center text-lg my-3">
+            <span className="font-semibold drop-shadow-md">Cells died:</span>
+            <span className="font-bold text-red-300">{stats[3]}</span>
+          </div>
+          <div className="flex justify-between items-center text-lg my-3">
+            <span className="font-semibold drop-shadow-md">Maximum lifespan:</span>
+            <span className="font-bold text-red-300">{stats[4]}</span>
+          </div>
+          <div className="flex justify-between items-center text-lg my-3">
+            <span className="font-semibold drop-shadow-md">Average Lifespan:</span>
+            <span className="font-bold text-red-300">{stats[5].toFixed(3)}</span>
+          </div>
         </>
       ) : (
         <p className="text-lg italic text-gray-200 mt-4">

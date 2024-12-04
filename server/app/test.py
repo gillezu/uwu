@@ -52,7 +52,13 @@ class Grid:
         self.height = height
         self.cell_size = cell_size
         self.cells = [[Cell(x, y) for y in range(height)] for x in range(width)]
-        self.stats = [0, 0, 0, 0]  # Alive, Dead, New Alive, New Dead
+        self.stats = [
+            0, # Alive
+            0, # Dead
+            0, # New Alive
+            0, # New Dead
+            0, # maximum lifespan
+            0] # Average lifespan
 
     def to_dict(self):
         self.get_stats()
@@ -197,6 +203,7 @@ class Grid:
             for cell in row:
                 neighbors = self.get_neighbors(cell)
                 cell.determine_next_state(neighbors)
+        self.get_stats()
         
         # Update state to the next state
         for row in self.cells:
@@ -266,17 +273,21 @@ class Grid:
                         cell.update_state()
 
     def get_stats(self):
-        self.stats = [0, 0, 0, 0]
+        self.stats = [0, 0, 0, 0, 0, 0]
+        total_lifespan = 0
         for row in self.cells:
             for cell in row:
                 if cell.state == CellState.ALIVE:
+                    total_lifespan += cell.time_not_changed
                     self.stats[0] += 1
+                    self.stats[4] = max(self.stats[4], cell.time_not_changed)
                     if cell.time_not_changed == 0:
                         self.stats[2] += 1
                 else:
                     self.stats[1] += 1
                     if cell.time_not_changed == 0:
                         self.stats[3] += 1
+        self.stats[5] = total_lifespan/self.stats[0] if self.stats[0] else 0
 
     def draw(self, screen):
         """Draw the grid of cells to the screen."""
@@ -297,9 +308,6 @@ class Grid:
                         g = int(min(cell.time_not_changed, 255)*0.9)
                         b = int(max(255 - 0.5*cell.time_not_changed, 0) + (255 - max(255 - 0.5*cell.time_not_changed, 0))*0.2)
                         color = (r, g, b)
-                    self.stats[0] += 1
-                    if cell.time_not_changed == 0:
-                        self.stats[2] += 1
                 else:
                     if not cell.freezed:
                         r, g, b = max(255 - cell.time_not_changed, 0), max(255 - cell.time_not_changed, 0), max(255 - cell.time_not_changed, 0)
@@ -309,9 +317,6 @@ class Grid:
                         g = int(max(255 - cell.time_not_changed, 0)*0.9)
                         b = int(max(255 - cell.time_not_changed, 0) + (255 - max(255 - cell.time_not_changed, 0))*0.2)
                         color = (r, g, b)
-                    self.stats[1] += 1
-                    if cell.time_not_changed == 0:
-                        self.stats[3] += 1
                 pygame.draw.rect(screen, color, pygame.Rect(
                     cell.x * self.cell_size, cell.y * self.cell_size, self.cell_size, self.cell_size))
 
