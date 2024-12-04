@@ -1,9 +1,16 @@
 # uwu
 Future Ideas:
-- Level-based, playable game
-    + multiple pages: see https://search.app/kiSzW2Z27LWGiG3b6 
+- Level-based, playable game 
 - webscraping for library
-- infinite grid
-- grid, cellAges, freezedCells -> gridInformation
-- Exporting grid to library
-- Search api for library
+- Predator
+- Responsiveness?
+- Constants for Spells
+- Background Gioele
+- Achievements
+  - Stable Patterns
+- Navbar styling
+- Morphing blob in sidebar
+- merge main.py and test.py
+- modularize main.py
+- update pygame
+- 
