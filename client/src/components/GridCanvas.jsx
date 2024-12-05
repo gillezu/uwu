@@ -46,8 +46,8 @@ const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClic
                     if cell.time_not_changed == 0:
                         self.stats[3] += 1*/ 
 
-    const getColor = (age, isAlive, freezed) => {
-      if (isAlive) {
+    const getColor = (age, cellState, freezed) => {
+      if (cellState === 1) {
         if (!freezed) {
           const red = Math.max(255 - 2 * age, 0);
           const green = Math.min(age, 255);
@@ -62,7 +62,7 @@ const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClic
           );
           return `rgb(${red}, ${green}, ${blue})`;
         }
-      } else {
+      } else if (cellState === 0) {
         if (!freezed) {
           const grayValue = Math.max(255 - age, 0);
           return `rgb(${grayValue}, ${grayValue}, ${grayValue})`;
@@ -75,16 +75,18 @@ const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClic
           );
           return `rgb(${red}, ${green}, ${blue})`;
         }
+      } else if (cellState === 2) {
+        return `rgb(${252}, ${94}, ${3})`
       }
     };
 
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
-        const isAlive = grid[i][j] === 1;
+        const cellState = grid[i][j];
         const age = cellAges[i][j];
         const freezed = cellfreezed[i][j];
         cellfreezed
-        ctx.fillStyle = getColor(age, isAlive, freezed);
+        ctx.fillStyle = getColor(age, cellState, freezed);
         ctx.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
       }
     }
@@ -108,7 +110,6 @@ const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClic
       setCoords({ x: event.clientX, y: event.clientY });
     };
     const handleKeyDown = (event) => {
-      console.log(anyModalOpened)
       if (!anyModalOpened) {
         const canvas = canvasRef.current;
         const rect = canvas.getBoundingClientRect();
@@ -119,7 +120,6 @@ const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClic
         const j = Math.floor(x / cellSize);
         switch (event.key) {
           case "l":
-            console.log('l'+level)
             if (level >= 3) {
               onKeyPress(0, i, j);
             }
@@ -147,6 +147,16 @@ const Grid = ({ grid, cellSize, cellAges, width, height, cellfreezed, onCellClic
           case "R":
             if (level >= 8) {
               onKeyPress(5, i, j);
+            }
+            break;
+          case "p":
+            if (level >= 9) {
+              onKeyPress(6, i, j);
+            }
+            break;
+          case "P":
+            if (level >= 10) {
+              onKeyPress(7, i, j);
             }
             break;
         };

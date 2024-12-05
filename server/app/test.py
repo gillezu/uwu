@@ -32,7 +32,6 @@ class Cell:
         """Determine the cell's next state based on Game of Life rules."""
         if self.state == CellState.PREDATOR:
             cell_moves = random.random()
-            print(cell_moves)
             if cell_moves:
                 self.next_state = CellState.DEAD
                 i = random.randint(0, len(neighbors)-1)
@@ -242,6 +241,8 @@ class Grid:
         elif key == 5:
             self.apply_revive_all()
         elif key == 6:
+            self.apply_predator(pos_x, pos_y)
+        elif key == 7:
             self.apply_predatorization(pos_x, pos_y)
 
     def apply_lightning(self, pos_x: int, pos_y: int):
@@ -290,6 +291,10 @@ class Grid:
                         cell.next_state = CellState.ALIVE
                         cell.time_not_changed = 0
                         cell.update_state()
+
+    def apply_predator(self, pos_x: int, pos_y: int):
+        self.cells[pos_x][pos_y].next_state = CellState.PREDATOR if self.cells[pos_x][pos_y].state != CellState.PREDATOR else CellState.DEAD
+        self.cells[pos_x][pos_y].update_state()
 
     def apply_predatorization(self, pos_x: int, pos_y: int):
         for i, row in enumerate(self.cells):
@@ -372,9 +377,6 @@ class GameOfLife:
         """Advance the grid to the next generation."""
         self.grid.update()
 
-    def apply_spell(self, key: int, pos_x: int = None, pos_y: int = None):
-        Grid.apply_spell(key, pos_x, pos_y)
-
 #Buttons
 red_button = pygame.Surface((50, 50)) 
 red_button.fill((255, 0, 0))
@@ -443,30 +445,30 @@ def main():
                     count = 0
                     started = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p and not started and 0<=pos[0]<=(grid_width * cell_size) and 0<=pos[1]<=(grid_height * cell_size):
+                if event.key == pygame.K_r and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                    game.grid.apply_spell(5)
+                elif event.key == pygame.K_p and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                    game.grid.apply_spell(6, pos[0]/cell_size, pos[1]/cell_size)
+                elif event.key == pygame.K_p and not started and 0<=pos[0]<=(grid_width * cell_size) and 0<=pos[1]<=(grid_height * cell_size):
                     pos_cell = [pos[0]//cell_size, pos[1]//cell_size]
                     cell = game.grid.cells[pos_cell[0]][pos_cell[1]]
                     cell.state = CellState.PREDATOR 
                 elif event.key == pygame.K_l:
                     if 0<=pos[0]<=(grid_width * cell_size) and 0<=pos[1]<=(grid_height * cell_size):
-                        game.apply_spell(0, pos[0]/cell_size, pos[1]/cell_size)
+                        game.grid.apply_spell(0, pos[0]/cell_size, pos[1]/cell_size)
                 elif event.key == pygame.K_f:
                     if 0<=pos[0]<=(grid_width * cell_size) and 0<=pos[1]<=(grid_height * cell_size):
-                        game.apply_spell(2, pos[0]/cell_size, pos[1]/cell_size)
+                        game.grid.apply_spell(2, pos[0]/cell_size, pos[1]/cell_size)
                 elif event.key == pygame.K_e:
-                    game.apply_spell(1)
+                    game.grid.apply_spell(1)
                 elif event.key == pygame.K_r:
-                    game.apply_spell(4, pos[0]/cell_size, pos[1]/cell_size)
-                elif event.key == pygame.K_r and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                    game.apply_spell(5)
-                elif event.key == pygame.K_p and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                    game.apply_spell(6, pos[0]/cell_size, pos[1]/cell_size)
+                    game.grid.apply_spell(4, pos[0]/cell_size, pos[1]/cell_size)
                 elif event.key == pygame.K_c:
-                    game.grid.reset_field()
+                    game.grid.grid.reset_field()
                     count = 0
                     started = False
                 elif event.key == pygame.K_u:
-                    game.apply_spell(3)
+                    game.grid.apply_spell(3)
                 elif event.key == pygame.K_UP:
                     FPS += 5
                 elif event.key == pygame.K_DOWN:
