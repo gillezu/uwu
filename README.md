@@ -16,3 +16,4 @@ Future Ideas:
 - Heatmap for activity
 - glow effects + spell fx gioele
 - 3d Grids
+- Gravity
