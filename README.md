@@ -1,5 +1,6 @@
 # uwu
 Future Ideas:
+- Zooming
 - Level-based, playable game (2 level)
 - Predator, explosive, healer, virus cells
 - Constants for Spells
