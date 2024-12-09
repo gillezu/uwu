@@ -1,23 +1,18 @@
 # uwu
 Future Ideas:
-- Level-based, playable game 
-- webscraping for library
-- Predator, explosive, healer cells
-- Responsiveness?
+- Level-based, playable game (2 level)
+- Predator, explosive, healer, virus cells
 - Constants for Spells
 - Background Gioele
-- Achievements
+- Achievements Richard
   - Stable Patterns
-- Navbar styling
-- Morphing blob in sidebar
-- merge main.py and test.py
+- Navbar styling Gioele
+- Morphing blob in sidebar Gioele
+- merge main.py and test.py 
 - modularize main.py
 - update pygame
-- more statistics
+- (more statistics)
 - background music
-- Gravity?
 - Heatmap for activity
-- glow effects
-- seasonal
+- glow effects + spell fx gioele
 - 3d Grids
-- viruses
