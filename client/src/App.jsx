@@ -267,8 +267,8 @@ function App() {
             </span>
             <span className="text-white text-sm font-light">
               {level < maxLevel
-              ? `Exp: ${experience.toFixed(0)}/${expRequirements[level]}`
-              : "Maxed"}
+                ? `Exp: ${experience.toFixed(0)}/${expRequirements[level]}`
+                : "Maxed"}
             </span>
           </div>
         </div>
