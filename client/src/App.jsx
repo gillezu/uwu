@@ -35,11 +35,11 @@ function App() {
   const [isRunning, setIsRunning] = useState(false); // Speichert, ob der Vorgang läuft
   const [experience, setExperience] = useState(0); // Aktuelle Exp
   const [level, setLevel] = useState(1); // Aktuelles Level
-  const maxLevel = 8; // Maximal erreichbares Level
+  const maxLevel = 10; // Maximal erreichbares Level
   const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
 
   // Exp-Anforderungen für jedes Level
-  const expRequirements = [0, 100, 200, 350, 500, 700, 1000, 1500];
+  const expRequirements = [0, 100, 200, 350, 500, 700, 1000, 1500, 2500, 4000];
 
   const [data, setData] = useState({
     cell_age: [[]],

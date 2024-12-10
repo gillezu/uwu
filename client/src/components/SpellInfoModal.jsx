@@ -8,6 +8,8 @@ const SpellInfoModal = ({ show, level }) => {
     { key: "u", level: 6, name: "Unfreeze", description: "❄️ Brings the grid back to life—melting the freeze!" },
     { key: "r", level: 7, name: "Resurrection Zone", description: "🔄 Revives all cells in a small area—like a local CPR spell!" },
     { key: "Shift + R", level: 8, name: "Divine Rebirth", description: "🌟 A divine spell that revives every cell on the grid—pure rebirth magic!" },
+    { key: "p", level: 9, name: "The Hunt Begins", description: "Unleash a single predator into the grid. This merciless entity roams the field, consuming any living cell it encounters. Beware: its hunger knows no bounds." },
+    { key: "Shift + P", level: 10, name: "The Pack Descends", description: "Release an entire horde of predators to dominate the grid. These ferocious hunters devour their prey swiftly, bringing chaos and imbalance wherever they roam." },
   ];
 
   return (
