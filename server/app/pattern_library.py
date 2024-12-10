@@ -1,3 +1,5 @@
+from supabasePatterns import supabase
+
 patterns = {
     "glider": "bo$2bo$3o!",
     "blinker": "3o$!",
@@ -9,5 +11,11 @@ patterns = {
     "pulsar": "5b2o6b2o5b$5b2o6b2o5b$7bo4bo7b$2o2bobo4bobo2b2o$2o3bo6bo3b2o$4bo8bo4b$4bo8bo4b$2o3bo6bo3b2o$2o2bobo4bobo2b2o$7bo4bo7b$5b2o6b2o5b$5b2o6b2o!",
     "diehard": "6bo6b$2o5b2o4b$bo4bobo4b$bo10b$3bobo7b$3b2o!",
     "acorn": "bo7b$3bo5b$2obo5b$5bo3b$5bobo$6b2o!",
-    "r_pentomino": "b2o3b$2o2bo$bo!"
+    "r_pentomino": "b2o3b$2o2bo$bo!",
 }
+
+for key, value in patterns.items():
+    newPattern = {"Name": key, "Code": value}
+    supabase.table("Patterns").insert(newPattern).execute()
+    print("Pattern added")
+
