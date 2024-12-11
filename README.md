@@ -29,15 +29,15 @@ Terminal 1: Running the React Client
 
     Navigate to the client directory:
 
-cd client
+        cd client
 
     Install the client dependencies:
 
-npm install
+        npm install
 
     Start the React client application:
 
-npm run dev
+        npm run dev
 
     The client should now be running and accessible at http://localhost:5137.
 
@@ -47,18 +47,18 @@ Terminal 2: Running the Server (Backend)
 
     Navigate to the server directory:
 
-cd server
+        cd server
 
     Install the backend dependencies:
 
-pip install -r requirements.txt
+        pip install -r requirements.txt
 
     Navigate into the app folder:
 
-cd app
+        cd app
 
     Start the backend server:
 
-python server.py
+        python server.py
 
     The server should now be running and ready to handle API requests from the client.
