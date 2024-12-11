@@ -56,10 +56,6 @@ function App() {
 
   const resetGeneration = () => setGeneration(-1);
 
-  const [fps, setFPS] = useState(17);
-
-  const [headerZoom, setHeaderZoom] = useState(false);
-
   useEffect(() => {
     if (level >= maxLevel) return; // Max. Level erreicht, keine weitere Erhöhung
 
@@ -84,11 +80,6 @@ function App() {
     }, 500);
     return () => clearTimeout(timeout);
   }, []);
-
-  const handleFPSChange = (event) => {
-    const newFPS = event.target.value;
-    setFPS(newFPS);
-  };
 
   useEffect(() => {
     socket.on("getPatterns", (response) => {

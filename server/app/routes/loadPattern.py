@@ -12,4 +12,3 @@ def loadPattern(data):
     grid.reset_field()
     grid.apply_rle_pattern(data)
     socketio.emit("getGrid", grid.to_dict())
-    print(data)
