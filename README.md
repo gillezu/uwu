@@ -1,16 +1,16 @@
-Game of Life in React
+#Game of Life in React
 
 Welcome to the Game of Life project! This project is a React-based implementation of Conway's Game of Life, a cellular automaton simulation showcasing how simple rules can create complex patterns and behaviors.
 
 The frontend is built using React with Vite and Tailwind CSS for a fast and modern development experience. The backend is powered by Python and communicates with the client via WebSockets, ensuring real-time interactions and updates.
 
-🚀 Project Status
+##🚀 Project Status
 
     The project is currently in development.
     The latest version is available on the test branch.
     Features are still being tested and implemented.
 
-📜 Dependencies
+##📜 Dependencies
 
     Dependencies are located in each branch for specific versions:
         package.json for React dependencies (JavaScript).
@@ -18,7 +18,7 @@ The frontend is built using React with Vite and Tailwind CSS for a fast and mode
 
     Make sure to check these files in the respective branches to ensure the correct dependencies for that version.
 
-📂 Project Structure
+##📂 Project Structure
 
     client/: Contains the React frontend.
     server/: Contains the backend server logic.
@@ -26,7 +26,7 @@ The frontend is built using React with Vite and Tailwind CSS for a fast and mode
         The test branch contains the latest experimental updates.
         Each branch contains its own requirements.txt and package.json specifying dependencies for that version.
 
-🛠️ How to Run the Project Locally
+##🛠️ How to Run the Project Locally
 
 You need to have two terminals open to run the client and server separately.
 Terminal 1: Running the React Client
@@ -69,7 +69,7 @@ Start the backend server:
 
 The server should now be running and ready to handle API requests from the client.
 
-✨ Future Aims and Ideas
+##✨ Future Aims and Ideas
 
     Zooming
     Level-based, playable game (2 levels)
