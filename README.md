@@ -1,3 +1,9 @@
+Game of Life in React
+
+Welcome to the Game of Life project! This project is a React-based implementation of Conway's Game of Life, a cellular automaton simulation showcasing how simple rules can create complex patterns and behaviors.
+
+The frontend is built using React with Vite and Tailwind CSS for a fast and modern development experience. The backend is powered by Python and communicates with the client via WebSockets, ensuring real-time interactions and updates.
+
 🚀 Project Status
 
     The project is currently in development.
