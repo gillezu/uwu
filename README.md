@@ -29,8 +29,8 @@ Make sure to check these files in the respective branches to ensure the correct 
 ---
 
 ## 📂 **Project Structure** 
-/client - Contains the React frontend 
-/server - Contains the backend server logic
+- **/client** - Contains the React frontend 
+- **/server** - Contains the backend server logic
 
 ---
 
@@ -56,9 +56,20 @@ You will need **two terminals** open to run the client and server separately.
 
 ```bash
 cd client
+```
+
+3.Install the client dependencies:
+
+```bash
 npm install
+```
+
+4. Start the React client application:
+
+```bash
 npm run dev
 ```
+
 ✅ The client should now be running and accessible at http://localhost:5137.
 
 ### Terminal 2 – Backend Server 🐍
