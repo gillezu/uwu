@@ -68,3 +68,24 @@ Start the backend server:
         python server.py
 
 The server should now be running and ready to handle API requests from the client.
+
+✨ Future Aims and Ideas
+
+    Zooming
+    Level-based, playable game (2 levels)
+    Predator, explosive, healer, virus cells
+    Constants for Spells
+    Background visuals
+    Achievements
+        Stable Patterns
+    Navbar styling enhancements
+    Morphing blob in the sidebar
+    Merge main.py and test.py
+    Modularize main.py
+    Update pygame
+    More statistics and performance metrics
+    Background music integration
+    Heatmap for activity visualization
+    Glow effects and spell animations
+    3D Grids
+    Gravity mechanics
