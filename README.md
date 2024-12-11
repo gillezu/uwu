@@ -80,8 +80,23 @@ npm run dev
 
 ```bash
 cd server
+```
+
+3.Install the backend dependencies:
+
+```bash
 pip install -r requirements.txt
+```
+
+4. Move into the appdirectory:
+
+```bash
 cd app
+```
+
+5. Start the backend server:
+
+```bash
 python server.py
 ```
 
