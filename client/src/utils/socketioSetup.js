@@ -1,5 +1,7 @@
 import { io } from "socket.io-client";
+import { API_BASE_URL } from "./apiConfig";
 
-export const socket = io("http://127.0.0.1:5000", {
-  transports: ["websocket"],
-});
+const options = { transports: ["websocket"] };
+
+// Passing only options connects to the page's own origin.
+export const socket = API_BASE_URL ? io(API_BASE_URL, options) : io(options);

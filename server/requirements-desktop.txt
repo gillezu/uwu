@@ -1,0 +1,3 @@
+# Extra dependency for the standalone pygame version: python app/main.py
+# Not needed by the web server or the Docker image.
+pygame==2.6.1

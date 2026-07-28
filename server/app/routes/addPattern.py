@@ -12,6 +12,10 @@ add_pattern_bp = Blueprint("addPattern", __name__)
 def add_patterns(patternName):
     rle = grid.to_rle()
     newPattern = {"Name": patternName, "Code": rle}
-    addPattern(newPattern)
-    socketio.emit("getPatterns", getPatterns())
-
+    try:
+        addPattern(newPattern)
+        patterns = getPatterns()
+    except Exception as e:
+        print(f"Error adding pattern {patternName}: {e}")
+        patterns = {}
+    socketio.emit("getPatterns", patterns)

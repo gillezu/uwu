@@ -75,13 +75,6 @@ function App() {
   }, [isModalOpen, isSaveModalOpen]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setHeaderZoom(true);
-    }, 500);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  useEffect(() => {
     socket.on("getPatterns", (response) => {
       setPatterns(response);
     });
@@ -131,7 +124,7 @@ function App() {
   return (
     <div
       className="relative flex flex-col items-center justify-start h-screen w-screen 
-      bg-cover bg-center bg-[url('./assets/polygonScatterBG.svg')]"
+      bg-cover bg-center bg-[url('/assets/polygonScatterBG.svg')]"
       /*style={{ animation: "rotate-background 10s infinite linear" }}***/ //
     >
       <Toaster

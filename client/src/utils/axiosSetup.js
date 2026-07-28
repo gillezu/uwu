@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "./apiConfig";
 
-axios.defaults.baseURL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+// An empty baseURL makes axios issue same-origin relative requests.
+axios.defaults.baseURL = API_BASE_URL;

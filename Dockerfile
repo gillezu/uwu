@@ -1,55 +1,52 @@
-# Base image for client
-FROM node:18 AS client-build
+# One image that builds the React client to static files and serves them from
+# the Flask/Socket.IO server, so the whole app is a single origin on one port.
+#
+#   docker compose up --build   ->   http://localhost:5001
 
-# Set working directory for client
-WORKDIR /app/client
+# ---------- Stage 1: build the client ----------
+FROM node:22-alpine AS client-build
 
-# Copy client code
+WORKDIR /client
+
+# Dependencies first, so this layer is reused when only source files change.
 COPY client/package.json client/package-lock.json ./
-RUN npm install
+RUN npm ci
 
-# Copy the rest of the client code
-COPY client ./
+COPY client/ ./
 
-# Base image for server
-FROM python:3.10 AS server-build
+# Empty means "talk to whatever origin served this page", so no API hostname is
+# compiled into the bundle. Vite inlines VITE_* variables at build time, which is
+# why this is a build-time concern rather than a runtime one. client/.env.production
+# already sets this; repeated here so the image does not depend on that file.
+ENV VITE_API_BASE_URL=""
+RUN npm run build
 
-# Set working directory for server
-WORKDIR /app/server
 
-# Copy server code
-COPY server /app/server
-COPY requirements.txt /app/server/requirements.txt
+# ---------- Stage 2: runtime ----------
+FROM python:3.12-slim AS runtime
 
-# Install Python dependencies
-RUN pip install --upgrade pip  # Upgrade pip to latest version
-RUN pip install --no-cache-dir -r /app/server/requirements.txt && pip freeze
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PORT=5001 \
+    FLASK_DEBUG=0 \
+    CLIENT_DIST=/app/client/dist
 
-# Final image
-FROM python:3.10
-
-# Set working directory
 WORKDIR /app
 
-# Install Node.js and npm in the final image
-RUN apt-get update && apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install -y nodejs
+# Again: dependencies before source, for layer caching.
+COPY server/requirements.txt ./server/requirements.txt
+RUN pip install --no-cache-dir -r server/requirements.txt
 
-# Upgrade pip in the final image
-RUN pip install --upgrade pip
+COPY server/ ./server/
 
-# Copy server files
-COPY --from=server-build /app/server /app/server
+# Only the compiled assets cross over — no node_modules, no client source.
+COPY --from=client-build /client/dist ./client/dist
 
-# Copy client files for dev
-COPY --from=client-build /app/client /app/client
+# Don't run as root.
+RUN useradd --create-home --uid 10001 app && chown -R app:app /app
+USER app
 
-# Install additional tools for running multiple processes
-RUN npm install -g concurrently
+WORKDIR /app/server/app
 
-# Expose ports for both server and client
-EXPOSE 8000 5173
-
-# Command to run both the Python server and React client
-CMD ["concurrently", "\"npm --prefix /app/client run dev\"", "\"python /app/server/app/server.py\""]
+EXPOSE 5001
+CMD ["python", "server.py"]

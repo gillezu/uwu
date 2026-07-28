@@ -1,12 +1,25 @@
+import os
+
 from supabase import Client, create_client
 
-SUPABASE_URL = "https://bknlsxulojfzkjfcyood.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJrbmxzeHVsb2pmemtqZmN5b29kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5Nzc1MjQsImV4cCI6MjA0ODU1MzUyNH0.ajvJYLf3Yr0oGdMT2RyAl-6X6HEq6BA94PF7Y05lH0Y"
+# Credentials come from the environment (see server/.env.example).
+# The old project was hardcoded here and no longer exists.
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+if SUPABASE_URL and SUPABASE_KEY:
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+else:
+    supabase = None
+    print(
+        "WARNING: SUPABASE_URL / SUPABASE_KEY are not set. "
+        "The pattern library (save/load/library) will be unavailable."
+    )
 
 
 def getPatterns():
+    if supabase is None:
+        return {}
     response = supabase.table("Patterns").select("*").execute()
     patterns_list = response.data
     patterns_dict = {item["Name"]: item["Code"] for item in patterns_list}
@@ -14,8 +27,12 @@ def getPatterns():
 
 
 def addPattern(newPattern):
-    response = supabase.table("Patterns").insert(newPattern).execute()
+    if supabase is None:
+        return
+    supabase.table("Patterns").insert(newPattern).execute()
 
 
 def deletePattern(patternName):
-    response = supabase.table("Patterns").delete().eq("Name", patternName).execute()
+    if supabase is None:
+        return
+    supabase.table("Patterns").delete().eq("Name", patternName).execute()
