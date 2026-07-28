@@ -1,12 +1,19 @@
-import pygame
 #import pygame_gui
 import random
 from enum import Enum
 from typing import List, Tuple
 import math
 
-pygame.init()
-myfont = pygame.font.SysFont("monospace", 20)
+# pygame is only needed for the desktop version (main() below and Grid.draw).
+# The web server imports this module purely for the simulation logic, so it must
+# not require pygame or a display — that is what keeps the container slim.
+try:
+    import pygame
+    pygame.init()
+    myfont = pygame.font.SysFont("monospace", 20)
+except ImportError:
+    pygame = None
+    myfont = None
 
 
 # Enum for cell states
@@ -17,6 +24,9 @@ class CellState(Enum):
     HEALER = 3
     VIRUS = 4
     EXPLOSIVE = 5
+
+# Chance that a predator moves to a neighbouring cell instead of staying put.
+PREDATOR_MOVE_CHANCE = 0.8
 
 # Class for each cell in the grid
 class Cell:
@@ -31,7 +41,9 @@ class Cell:
     def determine_next_state(self, neighbors: List['Cell']):
         """Determine the cell's next state based on Game of Life rules."""
         if self.state == CellState.PREDATOR:
-            cell_moves = random.random()
+            # random.random() is a float in [0, 1) and so is almost always truthy —
+            # comparing against a threshold is what makes the "stay put" branch reachable.
+            cell_moves = random.random() < PREDATOR_MOVE_CHANCE
             if cell_moves:
                 self.next_state = CellState.DEAD
                 i = random.randint(0, len(neighbors)-1)
@@ -377,21 +389,22 @@ class GameOfLife:
         """Advance the grid to the next generation."""
         self.grid.update()
 
-#Buttons
-red_button = pygame.Surface((50, 50)) 
-red_button.fill((255, 0, 0))
+#Buttons (desktop version only — see the pygame import at the top)
+if pygame is not None:
+    red_button = pygame.Surface((50, 50))
+    red_button.fill((255, 0, 0))
 
-blue_button = pygame.Surface((50, 50)) 
-blue_button.fill((0, 0, 255))
+    blue_button = pygame.Surface((50, 50))
+    blue_button.fill((0, 0, 255))
 
-green_button = pygame.Surface((50, 50))
-green_button.fill((0, 255, 0))
+    green_button = pygame.Surface((50, 50))
+    green_button.fill((0, 255, 0))
 
-stat_button = pygame.Surface((50, 50)) 
-stat_button.fill((50, 50, 50))
+    stat_button = pygame.Surface((50, 50))
+    stat_button.fill((50, 50, 50))
 
-stat_surface = pygame.Surface((400, 200)) 
-stat_surface.fill((100, 100, 100))
+    stat_surface = pygame.Surface((400, 200))
+    stat_surface.fill((100, 100, 100))
 
 # Pygame setup and main loop
 def main():

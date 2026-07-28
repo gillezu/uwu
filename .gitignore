@@ -19,3 +19,10 @@ node_modules/
 env/
 ENV/
 
+# Local secrets. docker compose reads this file for variable substitution.
+.env
+!.env.example
+
+# Client build output (the Docker image builds it itself)
+client/dist/
+

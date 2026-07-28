@@ -13,6 +13,10 @@ env/
 .venv/
 ENV/
 
+# Local secrets (.env/ above only matches a directory, not the file)
+.env
+!.env.example
+
 # IDEs and text editors
 .idea/
 .vscode/

@@ -14,8 +14,15 @@ patterns = {
     "r_pentomino": "b2o3b$2o2bo$bo!",
 }
 
-for key, value in patterns.items():
-    newPattern = {"Name": key, "Code": value}
-    supabase.table("Patterns").insert(newPattern).execute()
-    print("Pattern added")
+# Seeding runs only when this file is executed directly. Previously it ran on
+# import, which inserted a duplicate copy of every pattern each time.
+def seed():
+    for key, value in patterns.items():
+        newPattern = {"Name": key, "Code": value}
+        supabase.table("Patterns").insert(newPattern).execute()
+        print(f"Pattern added: {key}")
+
+
+if __name__ == "__main__":
+    seed()
 

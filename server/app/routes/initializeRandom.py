@@ -11,5 +11,5 @@ initialize_random_bp = Blueprint("initialize_random", __name__)
 def initialize_random():
     print("Grid initialized randomly")
     grid.initialize_random()
-    print(grid.to_dict())
+    # Don't print the whole grid — it dumps ~30 kB of JSON per click.
     socketio.emit("getGrid", grid.to_dict())

@@ -1,0 +1,15 @@
+# Run the whole thing with:  docker compose up --build
+# Then open http://localhost:5001
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      # Optional — only needed for the Library / Save / Load Pattern features.
+      # Create a Supabase project with a "Patterns" table (columns: Name, Code).
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_KEY: ${SUPABASE_KEY:-}
